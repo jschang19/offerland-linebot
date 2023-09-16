@@ -41,6 +41,6 @@ http("main", async (req, res) => {
 			res.status(200).send(result);
 			break;
 		default:
-			res.send(404).send("Not Found");
+			res.status(404).send("Not Found");
 	}
 });
