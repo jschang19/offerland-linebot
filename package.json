@@ -1,11 +1,11 @@
 {
   "name": "offerland_linebot",
   "version": "0.0.1",
-  "description": "Offerland boardcasting LINE Webhook application",
+  "description": "OfferLand boardcasting LINE Webhook application",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "functions-framework --target=main --port 8090",
+    "start": "functions-framework --target=main",
     "prestart": "npm run build",
     "gcp-build": "npm run build",
     "deploy": "sh deploy.sh"
@@ -22,14 +22,7 @@
     "@google-cloud/functions-framework": "^3.2.1",
     "@line/bot-sdk": "^7.5.2",
     "@supabase/supabase-js": "^2.31.0",
-    "csv-parse": "^5.4.0",
-    "csv-parser": "^3.0.0",
-    "dotenv": "^16.3.1",
-    "first": "^0.0.3",
-    "fuse": "^0.4.0",
-    "fuse.js": "^6.6.2",
-    "mongoose": "^7.3.1",
-    "to": "^0.2.9"
+    "dotenv": "^16.3.1"
   },
   "repository": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git",
   "private": true,
