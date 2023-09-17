@@ -55,7 +55,7 @@ const BindingMessage = FlexMessage("綁定訊息", {
 					label: "綁定",
 					uri: "https://linecorp.com",
 				},
-				color: "#2943D1",
+				color: "#1919E8",
 				height: "md",
 				style: "primary",
 			},

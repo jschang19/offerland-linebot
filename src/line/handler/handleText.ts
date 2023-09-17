@@ -1,16 +1,22 @@
-import { TextMessage } from "../../utils/line/Message";
-import BindingMessage from "../../utils/line/flex/binding";
-import { Client, MessageEvent, TextEventMessage } from "@line/bot-sdk";
+import { TextMessage } from "@utils/line/Message";
+import { MessageEvent, TextEventMessage } from "@line/bot-sdk";
+import BindingMessage from "@utils/line/flex/binding";
+import ServiceMessage from "@utils/line/flex/service";
 
 const handleText = async (event: MessageEvent) => {
 	try {
 		const userMessage = (event.message as TextEventMessage).text;
 		const userId = event.source.userId;
-		if (userMessage === "hi") {
-			const reply = TextMessage("hi there");
-			return reply;
-		} else if (userMessage === "綁定") {
-			return BindingMessage;
+
+		switch (userMessage) {
+			case "hi":
+				return TextMessage("hi there");
+			case "綁定":
+				return BindingMessage;
+			case "找服務":
+				return ServiceMessage;
+			default:
+				break;
 		}
 		return TextMessage("I dont know what you mean??\n\n just kidding, I know what you mean");
 	} catch (error: any) {

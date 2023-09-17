@@ -1,4 +1,4 @@
-import { TextMessage } from "../../utils/line/Message";
+import { TextMessage } from "@utils/line/Message";
 import { PostbackEvent } from "@line/bot-sdk";
 const handlePostback = async (event: PostbackEvent) => {
 	try {
@@ -14,3 +14,5 @@ const handlePostback = async (event: PostbackEvent) => {
 		return TextMessage(`mes:\n${error}`);
 	}
 };
+
+export default handlePostback;
