@@ -1,6 +1,7 @@
 import handleText from "./handleText";
 import handleFollow from "./handleFollow";
-import { Client, WebhookEvent, TextMessage } from "@line/bot-sdk";
+import { Client, WebhookEvent, TextMessage, Profile } from "@line/bot-sdk";
+import { TextMessageWapper } from "@utils/line/Message";
 
 const handleEvent = async (line: Client, event: WebhookEvent) => {
 	if (event.type === "message" && event.message.type === "text") {
@@ -9,21 +10,17 @@ const handleEvent = async (line: Client, event: WebhookEvent) => {
 	} else if (event.type === "postback" && event.postback.data) {
 		// create a echoing text message for postback event
 		// just for temporary use
-		const echo = { type: "text", text: "wow a postback" };
+		const echo: TextMessage = { type: "text", text: "wow a postback" };
 
 		// use reply API
-		return line.replyMessage(event.replyToken, echo as TextMessage);
+		return line.replyMessage(event.replyToken, echo);
 	}
 	// follow event
 	else if (event.type === "follow") {
-		const userId = event.source.userId;
 		// // get user profile
-		const profile = await line.getProfile(userId as string);
-		// // create a user
-		// const user = await User.create({
-		// 	lineId: userId,
-		// 	userName: profile.displayName,
-		// });
+		// we would like to check if the user has binded his/her account
+		// if not, issue a token that point to the user's id to supabase
+		// TODO: write function to check if the user has binded his/her account
 		const reply = await handleFollow(line, event);
 		return line.replyMessage(event.replyToken, reply);
 	} else {
