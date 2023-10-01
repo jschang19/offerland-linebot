@@ -1,20 +1,26 @@
 import { http, Request, Response } from "@google-cloud/functions-framework";
 import { Client, validateSignature, WebhookEvent } from "@line/bot-sdk";
-import handleEvent from "./line/handler/index";
-import handleOfferland from "./line/handler/handleOfferland";
+import handleEvent from "@handlers/line";
+import handleSupabase from "@handlers/supabase";
+import { supabase as supaClient } from "@utils/supabase";
+
+const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN!;
+const LINE_CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET!;
 
 const line = new Client({
-	channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN!,
-	channelSecret: process.env.LINE_CHANNEL_SECRET!,
+	channelAccessToken: LINE_CHANNEL_ACCESS_TOKEN,
+	channelSecret: LINE_CHANNEL_SECRET,
 });
 
-const handleLineRequest = async (req: Request, res: Response) => {
+global.supabase = supaClient;
+
+const handleLineRequest = async (req: Request, res: Response): Promise<void> => {
 	try {
-		// validate signature
+		const requestBody = req.body;
 		if (
 			!validateSignature(
-				JSON.stringify(req.body),
-				process.env.LINE_CHANNEL_SECRET as string,
+				JSON.stringify(requestBody),
+				LINE_CHANNEL_SECRET,
 				req.headers["x-line-signature"] as string,
 			)
 		) {
@@ -22,7 +28,7 @@ const handleLineRequest = async (req: Request, res: Response) => {
 			return;
 		}
 
-		const events: WebhookEvent[] = req.body.events;
+		const events: WebhookEvent[] = requestBody.events;
 		const results = await Promise.all(events.map((event) => handleEvent(line, event)));
 		res.status(200).send(results);
 	} catch (err: any) {
@@ -30,17 +36,17 @@ const handleLineRequest = async (req: Request, res: Response) => {
 	}
 };
 
-http("main", async (req: Request, res: Response) => {
-	// a middleware to validate the signature
+const handleRequest = async (req: Request, res: Response): Promise<void> => {
 	try {
-		const reqParam = req.originalUrl;
-		const param = reqParam.split("/")[1];
+		const param = req.originalUrl.split("/")[1];
+
 		switch (param) {
 			case "line":
 				await handleLineRequest(req, res);
 				break;
-			case "offerland-trigger":
-				const result = await handleOfferland(line, req.body);
+			case "supabase":
+				console.log("supabase");
+				const result = await handleSupabase(line, req.originalUrl.split("/"), req.body);
 				res.status(200).send(result);
 				break;
 			default:
@@ -50,4 +56,6 @@ http("main", async (req: Request, res: Response) => {
 		console.error("main function error: ", error);
 		res.status(error.status || 500).send(error.message);
 	}
-});
+};
+
+http("main", handleRequest);
