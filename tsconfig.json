@@ -1,18 +1,20 @@
 {
     "compilerOptions": {
       "target": "es2018",
-      "baseUrl": "./src",
+      "baseUrl": ".",
       "module": "commonjs",
       "esModuleInterop": true,
       "strict": true,
       "outDir": "dist",
       "paths": {
-        "@utils/*": ["utils/*"]
+        "@utils/*": ["./src/utils/*"],
+        "@handlers/*": ["./src/handlers/*"]
 
-      }
+      },
+      "typeRoots": ["./types", "./node_modules/@types"]
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules","**/*.test.ts"],
     "allowJs": true,
     "tsc-alias": {
       "resolveFullPaths": true
