@@ -1,7 +1,6 @@
 import handleText from "./handleText";
 import handleFollow from "./handleFollow";
 import { Client, WebhookEvent, TextMessage, Profile } from "@line/bot-sdk";
-import { TextMessageWapper } from "@utils/line/Message";
 
 const handleEvent = async (line: Client, event: WebhookEvent) => {
 	if (event.type === "message" && event.message.type === "text") {
