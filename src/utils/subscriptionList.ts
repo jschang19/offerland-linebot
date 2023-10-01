@@ -29,7 +29,7 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 					contents: [
 						{
 							type: "text",
-							text: subscribtion.schoolName + " - " + subscribtion.majorName,
+							text: subscribtion.university.name + " - " + subscribtion.major.name,
 							weight: "bold",
 							size: "lg",
 							wrap: true,
@@ -73,7 +73,7 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 								},
 								{
 									type: "text",
-									text: subscribtion.status,
+									text: subscribtion.type,
 									size: "sm",
 									flex: 2,
 									wrap: true,
@@ -96,7 +96,7 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 								},
 								{
 									type: "text",
-									text: subscribtion.originalUniversity,
+									text: subscribtion.user.graduated_university,
 									size: "sm",
 									flex: 2,
 									wrap: true,
@@ -117,7 +117,7 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 					action: {
 						type: "uri",
 						label: "查看資訊",
-						uri: encodeURI(`https://offerland.cc/profile/${subscribtion.userName}?tab=錄取結果`),
+						uri: encodeURI(`https://offerland.cc/profile/${subscribtion.user.name}?tab=錄取結果`),
 					},
 					color: "#1919E8",
 					height: "sm",
@@ -128,7 +128,7 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 	};
 };
 
-export const generateSubscribtionCarousel = (subscribtions: any, carousel: any) => {
+export const generateSubscribtionCarousel = (carousel: any) => {
 	return FlexMessage("訂閱內容", {
 		type: "carousel",
 		contents: carousel,
