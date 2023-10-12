@@ -11,7 +11,8 @@
         "@handlers/*": ["./src/handlers/*"]
 
       },
-      "typeRoots": ["./types", "./node_modules/@types"]
+      "typeRoots": ["./types", "./node_modules/@types"],
+      "moduleResolution": "node"
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules","dist"],
