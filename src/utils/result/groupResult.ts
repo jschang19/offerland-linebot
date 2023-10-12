@@ -1,13 +1,4 @@
-import { nanoid } from "nanoid";
-
 const maxResult = 6;
-
-const assignIdsToResults = (results: Result[]): Result[] => {
-	return results.map((result) => ({
-		...result,
-		id: result.id ?? nanoid(4),
-	}));
-};
 
 const mapSubscribersToResults = (results: Result[]): SubscriberList => {
 	const mapping: SubscriberList = {};
@@ -36,24 +27,40 @@ const groupSubscribersByResults = (subscriptions: SubscriberList): GroupList => 
 	return groups;
 };
 
-const formatMulticastGroups = (groups: GroupList): MulticastGroup[] => {
+const tranformToArray = (groups: GroupList): MulticastGroup[] => {
 	return Object.entries(groups).map(([resultIds, subscribers]) => ({
 		resultIds: resultIds.split(","),
 		subscribers,
 	}));
 };
 
-export const filterResultsByType = (groups: GroupList, allResults: Result[]): GroupList => {
+export const sortResultIdByDate = (multicastGroups: MulticastGroup[], allResults: Result[]): MulticastGroup[] => {
+	return multicastGroups.map((group) => ({
+		...group,
+		resultIds: group.resultIds.sort((a, b) => {
+			const aDate = allResults.find((r) => r.id === a)?.date;
+			const bDate = allResults.find((r) => r.id === b)?.date;
+
+			if (!aDate || !bDate) return 0;
+			// sort by date descending
+			return new Date(bDate).getTime() - new Date(aDate).getTime();
+		}),
+	}));
+};
+
+export const filterAdmitted = (groups: GroupList, allResults: Result[]): GroupList => {
 	const filtered: GroupList = {};
 
 	Object.entries(groups).forEach(([resultIds, subscribers]) => {
-		let ids = resultIds.split(",");
+		const ids = resultIds.split(",");
 		const filteredIds =
-			ids.length >= maxResult
-				? ids.filter((id) => allResults.find((r) => r.id === id)?.type === "admitted")
-				: ids;
+			ids.length > maxResult ? ids.filter((id) => allResults.find((r) => r.id === id)?.type === "admitted") : ids;
 
-		if (filteredIds.length) filtered[filteredIds.join(",")] = subscribers;
+		if (!filteredIds.length) return;
+		if (filteredIds.length > maxResult) filteredIds.splice(maxResult);
+		if (!filtered[filteredIds.join(",")]) filtered[filteredIds.join(",")] = [];
+
+		filtered[filteredIds.join(",")].push(...subscribers);
 	});
 
 	return filtered;
@@ -63,10 +70,9 @@ export const createMulitcastGroup = (allResults: Result[]): MulticastGroup[] => 
 	allResults = allResults.filter((result) => result.subscribers.length > 0);
 	if (allResults.length === 0) return [];
 
-	allResults = assignIdsToResults(allResults);
 	const userSubscriptions = mapSubscribersToResults(allResults);
 	const groupedSubscribers = groupSubscribersByResults(userSubscriptions);
-	const filteredSubscribers = filterResultsByType(groupedSubscribers, allResults);
-
-	return formatMulticastGroups(filteredSubscribers);
+	const filteredSubscribers = filterAdmitted(groupedSubscribers, allResults);
+	const multicastGroups = tranformToArray(filteredSubscribers);
+	return sortResultIdByDate(multicastGroups, allResults);
 };
