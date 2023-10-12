@@ -1,46 +1,72 @@
 import { nanoid } from "nanoid";
 
-const groupWithSameResults = (allResults: Result[]) => {
-	const subscriberList: SubscriberList = {};
+const maxResult = 6;
 
-	allResults = allResults.filter((result: Result) => result.subscribers.length > 0);
+const assignIdsToResults = (results: Result[]): Result[] => {
+	return results.map((result) => ({
+		...result,
+		id: result.id ?? nanoid(4),
+	}));
+};
 
-	if (allResults.length === 0) return [];
+const mapSubscribersToResults = (results: Result[]): SubscriberList => {
+	const mapping: SubscriberList = {};
 
-	allResults.forEach((result: Result) => {
-		const { subscribers } = result;
-		result.id = nanoid(4);
-
-		subscribers.forEach((subscriber: Subscriber) => {
-			if (!subscriberList[subscriber.line_id]) {
-				subscriberList[subscriber.line_id] = [];
+	results.forEach((result) => {
+		result.subscribers.forEach((subscriber) => {
+			if (!mapping[subscriber.line_id]) {
+				mapping[subscriber.line_id] = [];
 			}
-			subscriberList[subscriber.line_id].push(result.id);
+			mapping[subscriber.line_id].push(result.id);
 		});
 	});
 
-	const groupedResult: { [key: string]: string[] } = {};
-	for (const subscriber in subscriberList) {
-		const combinedResult = subscriberList[subscriber].join(",");
-		if (!groupedResult[combinedResult]) {
-			groupedResult[combinedResult] = [];
-		}
-		groupedResult[combinedResult].push(subscriber);
-	}
-	const finalList: {
-		resultIds: string[];
-		subscribers: string[];
-	}[] = [];
-
-	for (const group in groupedResult) {
-		let seperatedGroup = group.split(",");
-		finalList.push({
-			resultIds: seperatedGroup,
-			subscribers: groupedResult[group],
-		});
-	}
-
-	return finalList;
+	return mapping;
 };
 
-export default groupWithSameResults;
+const groupSubscribersByResults = (subscriptions: SubscriberList): GroupList => {
+	const groups: GroupList = {};
+
+	Object.entries(subscriptions).forEach(([subscriber, results]) => {
+		const key = results.join(",");
+		groups[key] = groups[key] ?? [];
+		groups[key].push(subscriber);
+	});
+
+	return groups;
+};
+
+const formatMulticastGroups = (groups: GroupList): MulticastGroup[] => {
+	return Object.entries(groups).map(([resultIds, subscribers]) => ({
+		resultIds: resultIds.split(","),
+		subscribers,
+	}));
+};
+
+export const filterResultsByType = (groups: GroupList, allResults: Result[]): GroupList => {
+	const filtered: GroupList = {};
+
+	Object.entries(groups).forEach(([resultIds, subscribers]) => {
+		let ids = resultIds.split(",");
+		const filteredIds =
+			ids.length >= maxResult
+				? ids.filter((id) => allResults.find((r) => r.id === id)?.type === "admitted")
+				: ids;
+
+		if (filteredIds.length) filtered[filteredIds.join(",")] = subscribers;
+	});
+
+	return filtered;
+};
+
+export const createMulitcastGroup = (allResults: Result[]): MulticastGroup[] => {
+	allResults = allResults.filter((result) => result.subscribers.length > 0);
+	if (allResults.length === 0) return [];
+
+	allResults = assignIdsToResults(allResults);
+	const userSubscriptions = mapSubscribersToResults(allResults);
+	const groupedSubscribers = groupSubscribersByResults(userSubscriptions);
+	const filteredSubscribers = filterResultsByType(groupedSubscribers, allResults);
+
+	return formatMulticastGroups(filteredSubscribers);
+};

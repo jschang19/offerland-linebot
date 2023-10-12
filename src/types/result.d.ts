@@ -47,3 +47,12 @@ interface Scholarship {
 type SubscriberList = {
 	[id: string]: string[];
 };
+
+type GroupList = {
+	[key: string]: string[];
+};
+
+interface MulticastGroup {
+	resultIds: string[];
+	subscribers: string[];
+}
