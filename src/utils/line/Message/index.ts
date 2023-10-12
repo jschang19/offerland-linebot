@@ -37,6 +37,7 @@ export function BubbleMessage(altText: string, contents: FlexBubble) {
 }
 
 export function BindingMessage(bindingId: string) {
+	if (!bindingId) throw Error("Binding Id is required");
 	const bindingMessage = {
 		type: "flex",
 		altText: "綁定訊息",
