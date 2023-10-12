@@ -45,7 +45,6 @@ const handleRequest = async (req: Request, res: Response): Promise<void> => {
 				await handleLineRequest(req, res);
 				break;
 			case "supabase":
-				console.log("supabase");
 				const result = await handleSupabase(line, req.originalUrl.split("/"), req.body);
 				res.status(200).send(result);
 				break;
