@@ -28,7 +28,7 @@ export const generateMockResults = (total: number, admitted: number): Result[] =
 		const isAdmitted = i < admitted;
 		const result: Result = {
 			id: String.fromCharCode(97 + i), // 97 is the ASCII code for 'a'
-			date: new Date(),
+			date: new Date().toDateString(),
 			type: isAdmitted ? "admitted" : "rejected", // Adjust this according to your actual types
 			user: {
 				name: `User${i}`,
@@ -43,7 +43,7 @@ export const generateMockResults = (total: number, admitted: number): Result[] =
 				name: `Degree${i}`,
 			},
 			country_id: `Country${i}`,
-			created_at: new Date(),
+			created_at: new Date().toDateString(),
 			university: {
 				id: `u${i}`,
 				name: `University${i}`,

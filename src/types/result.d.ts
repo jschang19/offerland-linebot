@@ -1,12 +1,12 @@
 interface Result {
 	id: string;
-	date: Date;
+	date: string;
 	type: string;
 	user: User;
 	major: Major;
 	degree: Degree;
 	country_id: string;
-	created_at: Date;
+	created_at: string;
 	university: University;
 	scholarship: Scholarship;
 	country_name: string;
