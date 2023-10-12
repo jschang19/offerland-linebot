@@ -1,6 +1,6 @@
 // jest test /message.ts
 
-import { BindingMessage } from "../utils/line/Message";
+import { BindingMessage } from "../../utils/line/Message";
 import { FlexMessage } from "@line/bot-sdk";
 
 describe("BindingMessage", () => {
@@ -152,8 +152,12 @@ describe("BindingMessage", () => {
 
 	test("should return an error message when id is empty", () => {
 		const testId = "";
-		const bindingMessage = BindingMessage(testId);
 		// should return an error message
-		expect(bindingMessage).toEqual(undefined);
+		// "Binding Id is required"
+		try {
+			BindingMessage(testId);
+		} catch (error: any) {
+			expect(error.message).toEqual("Binding Id is required");
+		}
 	});
 });
