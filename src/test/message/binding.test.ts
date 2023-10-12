@@ -1,6 +1,6 @@
 // jest test /message.ts
 
-import { BindingMessage } from "../../utils/line/Message";
+import { BindingMessage } from "../../utils/line/message";
 import { FlexMessage } from "@line/bot-sdk";
 
 describe("BindingMessage", () => {

@@ -1,8 +1,8 @@
-import { TextMessageWrapper, BindingMessage } from "@utils/line/Message";
+import { TextMessageWrapper, BindingMessage } from "@utils/line/message";
 import { MessageEvent, TextEventMessage, User } from "@line/bot-sdk";
 import getBindingToken from "@utils/user/getLineBindToken";
 import unbindUser from "@utils/user/unBindId";
-import serviceMessage from "@utils/line/Message/service";
+import { ServiceMessage } from "@utils/line/message/service";
 
 const handleText = async (event: MessageEvent): Promise<any> => {
 	try {
@@ -28,7 +28,7 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 				}
 				return TextMessageWrapper("解除綁定成功");
 			case "找服務":
-				return serviceMessage;
+				return ServiceMessage;
 			default:
 				return TextMessageWrapper("I don’t know what you mean??\n\n just kidding, I know what you mean");
 		}

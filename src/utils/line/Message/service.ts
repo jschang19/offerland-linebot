@@ -1,6 +1,7 @@
-import { FlexMessage } from "../Message";
+import { createFlexMessage } from "../message/index";
+import { FlexMessage } from "@line/bot-sdk";
 
-const ServiceMessage = FlexMessage("找服務", {
+export const ServiceMessage: FlexMessage = createFlexMessage("找服務", {
 	type: "bubble",
 	body: {
 		type: "box",
@@ -66,5 +67,3 @@ const ServiceMessage = FlexMessage("找服務", {
 		flex: 0,
 	},
 });
-
-export default ServiceMessage;

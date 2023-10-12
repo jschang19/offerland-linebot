@@ -1,5 +1,5 @@
 import { Client, FollowEvent, Profile } from "@line/bot-sdk";
-import { TextMessageWrapper } from "@utils/line/Message";
+import { TextMessageWrapper } from "@utils/line/message";
 import { nanoid } from "nanoid";
 
 const handleFollow = async (line: Client, event: FollowEvent) => {
