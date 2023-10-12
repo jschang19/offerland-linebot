@@ -1,23 +1,23 @@
 import { TextMessage, FlexMessage, FlexContainer, FlexBubble } from "@line/bot-sdk";
 
-export function TextMessageWrapper(text: string) {
+export function TextMessageWrapper(text: string): TextMessage {
 	if (!text) throw new Error("Text Message is required");
 	// return TextMessage for line bot in typescript
 	return {
 		type: "text",
 		text,
-	} as TextMessage;
+	};
 }
 
-export function FlexMessage(altText: string, contents: FlexContainer) {
+export function createFlexMessage(altText: string, contents: FlexContainer): FlexMessage {
 	return {
 		type: "flex",
 		altText: altText,
 		contents: contents,
-	} as FlexMessage;
+	};
 }
 
-export function CarouselMessage(altText: string, contents: FlexContainer[]) {
+export function wrapAsCarouselMessage(altText: string, contents: FlexBubble[]): FlexMessage {
 	return {
 		type: "flex",
 		altText: altText,
@@ -25,20 +25,21 @@ export function CarouselMessage(altText: string, contents: FlexContainer[]) {
 			type: "carousel",
 			contents: contents,
 		},
-	} as FlexMessage;
+	};
 }
 
-export function BubbleMessage(altText: string, contents: FlexBubble) {
+export function wrapAsBubbleMessage(altText: string, contents: FlexBubble): FlexMessage {
 	return {
 		type: "flex",
 		altText: altText,
 		contents: contents,
-	} as FlexMessage;
+	};
 }
 
-export function BindingMessage(bindingId: string) {
+export function BindingMessage(bindingId: string): FlexMessage {
 	if (!bindingId) throw Error("Binding Id is required");
-	const bindingMessage = {
+
+	const bindingMessage: FlexMessage = {
 		type: "flex",
 		altText: "綁定訊息",
 		contents: {
@@ -104,7 +105,7 @@ export function BindingMessage(bindingId: string) {
 				],
 			},
 		},
-	} as FlexMessage;
+	};
 
 	return bindingMessage;
 }
