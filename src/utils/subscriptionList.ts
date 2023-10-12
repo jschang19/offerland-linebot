@@ -1,5 +1,7 @@
-import { FlexMessage } from "./line/Message";
-export const generateSubscribtionBubble = (subscribtion: any) => {
+import { createFlexMessage } from "./line/message";
+import { FlexBubble } from "@line/bot-sdk";
+
+export const generateSubscribtionBubble = (subscribtion: Result): FlexBubble => {
 	return {
 		type: "bubble",
 		header: {
@@ -13,7 +15,6 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 					weight: "bold",
 					size: "sm",
 					color: "#FFFFFFFF",
-					contents: [],
 				},
 			],
 		},
@@ -28,12 +29,27 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 					spacing: "lg",
 					contents: [
 						{
-							type: "text",
-							text: subscribtion.university.name + " - " + subscribtion.major.name,
-							weight: "bold",
-							size: "lg",
-							wrap: true,
-							contents: [],
+							type: "box",
+							layout: "vertical",
+							spacing: "md",
+							contents: [
+								{
+									type: "text",
+									text: subscribtion.major.name,
+									weight: "bold",
+									size: "lg",
+									wrap: true,
+								},
+								{
+									type: "text",
+									text: subscribtion.university.name,
+									weight: "bold",
+									size: "sm",
+									flex: 2,
+									margin: "lg",
+									wrap: true,
+								},
+							],
 						},
 						{
 							type: "box",
@@ -46,15 +62,13 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 									size: "sm",
 									color: "#AAAAAA",
 									flex: 1,
-									contents: [],
 								},
 								{
 									type: "text",
-									text: subscribtion.date,
+									text: new Date(subscribtion.date).toLocaleDateString(),
 									size: "sm",
 									flex: 2,
 									wrap: true,
-									contents: [],
 								},
 							],
 						},
@@ -69,15 +83,14 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 									size: "sm",
 									color: "#AAAAAA",
 									flex: 1,
-									contents: [],
 								},
 								{
 									type: "text",
 									text: subscribtion.type,
+									color: subscribtion.type === "admit" ? "#008000" : "#808080",
 									size: "sm",
 									flex: 2,
 									wrap: true,
-									contents: [],
 								},
 							],
 						},
@@ -92,7 +105,6 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 									size: "sm",
 									color: "#AAAAAA",
 									flex: 1,
-									contents: [],
 								},
 								{
 									type: "text",
@@ -100,7 +112,6 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 									size: "sm",
 									flex: 2,
 									wrap: true,
-									contents: [],
 								},
 							],
 						},
@@ -129,7 +140,7 @@ export const generateSubscribtionBubble = (subscribtion: any) => {
 };
 
 export const generateSubscribtionCarousel = (carousel: any) => {
-	return FlexMessage("訂閱內容", {
+	return createFlexMessage("訂閱內容", {
 		type: "carousel",
 		contents: carousel,
 	});
@@ -149,7 +160,6 @@ export const extensiveSubscribtionBubble = (subscribtion: any) => {
 					weight: "bold",
 					size: "sm",
 					color: "#FFFFFFFF",
-					contents: [],
 				},
 			],
 		},
@@ -169,13 +179,11 @@ export const extensiveSubscribtionBubble = (subscribtion: any) => {
 							weight: "bold",
 							size: "lg",
 							wrap: true,
-							contents: [],
 						},
 						{
 							type: "text",
 							text: "US 的 Marketing 學群有 8 則新錄取結果回報！\n\n到 OfferLand 網站看更多 👇🏻",
 							wrap: true,
-							contents: [],
 						},
 					],
 				},
