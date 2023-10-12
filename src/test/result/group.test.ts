@@ -1,4 +1,4 @@
-import { createMulitcastGroup, filterResultsByType } from ".././../utils/result/groupResult";
+import { createMulitcastGroup, filterAdmitted } from ".././../utils/result/groupResult";
 import { mockResults, generateMockResults } from "../../utils/test/mockResults";
 
 describe("test filiterResultByType", () => {
@@ -6,17 +6,13 @@ describe("test filiterResultByType", () => {
 		const testGroup = {
 			"a,b,c,d,e,f,g,h": ["1", "2", "3", "4"],
 		};
-		const testUser: User = {
-			name: "test shawn",
-			graduated_university: "test_123",
-		};
 
 		const testData: Result[] = generateMockResults(10, 2);
 
 		const expected = {
 			"a,b": ["1", "2", "3", "4"],
 		};
-		const actual = filterResultsByType(testGroup, testData);
+		const actual = filterAdmitted(testGroup, testData);
 		expect(actual).toEqual(expected);
 	});
 
@@ -36,7 +32,7 @@ describe("test filiterResultByType", () => {
 			"a,b": ["1", "2", "3", "4"],
 			"a,b,c": ["87", "88"],
 		};
-		const actual = filterResultsByType(testGroup, testData);
+		const actual = filterAdmitted(testGroup, testData);
 		expect(actual).toEqual(expected);
 	});
 });
