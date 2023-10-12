@@ -1,10 +1,10 @@
 import { Client } from "@line/bot-sdk";
-import groupWithSameResults from "@utils/result/groupResult";
+import { createMulitcastGroup } from "@utils/result/groupResult";
 import { generateSubscribtionCarousel, generateSubscribtionBubble } from "@utils/subscriptionList";
 
 // Multicast to users who subscribe to the same result on Line
 const preciseMulticast = async (line: Client, results: Result[]) => {
-	const multicastGroups = groupWithSameResults(results);
+	const multicastGroups = createMulitcastGroup(results);
 	if (multicastGroups.length === 0) return;
 
 	for (const group of multicastGroups) {
