@@ -68,7 +68,10 @@ export const filterAdmitted = (groups: GroupList, allResults: Result[]): GroupLi
 
 export const createMulitcastGroup = (allResults: Result[]): MulticastGroup[] => {
 	allResults = allResults.filter((result) => result.subscribers.length > 0);
-	if (allResults.length === 0) return [];
+	if (allResults.length === 0) {
+		console.log("Oops, no result to multicast");
+		return [];
+	}
 
 	const userSubscriptions = mapSubscribersToResults(allResults);
 	const groupedSubscribers = groupSubscribersByResults(userSubscriptions);
