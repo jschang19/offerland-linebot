@@ -1,73 +1,92 @@
-const maxResult = 6;
+const maxResult = 8;
 
-const mapSubscribersToResults = (results: Result[]): SubscriberList => {
-	const mapping: SubscriberList = {};
+const mapSubscribersToResults = (results: Result[]): Map<string, string[]> => {
+	const mapping = new Map<string, string[]>();
 
 	results.forEach((result) => {
 		result.subscribers.forEach((subscriber) => {
-			if (!mapping[subscriber.line_id]) {
-				mapping[subscriber.line_id] = [];
-			}
-			mapping[subscriber.line_id].push(result.id);
+			const ids = mapping.get(subscriber.line_id) || [];
+			ids.push(result.id);
+			mapping.set(subscriber.line_id, ids);
 		});
 	});
 
 	return mapping;
 };
 
-const groupSubscribersByResults = (subscriptions: SubscriberList): GroupList => {
-	const groups: GroupList = {};
+const groupSubscribersByResults = (subscriptions: Map<string, string[]>): Map<string, string[]> => {
+	const groups = new Map<string, string[]>();
 
-	Object.entries(subscriptions).forEach(([subscriber, results]) => {
+	subscriptions.forEach((results, subscriber) => {
 		const key = results.join(",");
-		groups[key] = groups[key] ?? [];
-		groups[key].push(subscriber);
+		const subs = groups.get(key) || [];
+		subs.push(subscriber);
+		groups.set(key, subs);
 	});
 
 	return groups;
 };
 
-const tranformToArray = (groups: GroupList): MulticastGroup[] => {
-	return Object.entries(groups).map(([resultIds, subscribers]) => ({
+const transformToArray = (groups: Map<string, string[]>): MulticastGroup[] => {
+	return Array.from(groups.entries()).map(([resultIds, subscribers]) => ({
 		resultIds: resultIds.split(","),
 		subscribers,
 	}));
 };
 
-export const sortResultIdByDate = (multicastGroups: MulticastGroup[], allResults: Result[]): MulticastGroup[] => {
-	return multicastGroups.map((group) => ({
-		...group,
-		resultIds: group.resultIds.sort((a, b) => {
-			const aDate = allResults.find((r) => r.id === a)?.date;
-			const bDate = allResults.find((r) => r.id === b)?.date;
+const getTypeResult = (resultIds: string[], allResults: Result[]): TypeResults => {
+	const typeResults: TypeResults = {
+		decision: [],
+		admit: [],
+		reject: [],
+	};
 
-			if (!aDate || !bDate) return 0;
-			// sort by date descending
-			return new Date(bDate).getTime() - new Date(aDate).getTime();
-		}),
-	}));
-};
-
-export const filterAdmitted = (groups: GroupList, allResults: Result[]): GroupList => {
-	const filtered: GroupList = {};
-
-	Object.entries(groups).forEach(([resultIds, subscribers]) => {
-		const ids = resultIds.split(",");
-		const filteredIds =
-			ids.length > maxResult ? ids.filter((id) => allResults.find((r) => r.id === id)?.type === "admitted") : ids;
-
-		if (!filteredIds.length) return;
-		if (filteredIds.length > maxResult) filteredIds.splice(maxResult);
-		if (!filtered[filteredIds.join(",")]) filtered[filteredIds.join(",")] = [];
-
-		filtered[filteredIds.join(",")].push(...subscribers);
+	const resultsMap = new Map(allResults.map((result) => [result.id, result]));
+	console.log("resultIds", resultIds);
+	resultIds.forEach((id) => {
+		const result = resultsMap.get(id);
+		console.log(result?.type);
+		if (result) {
+			typeResults[result.type].push(id);
+		}
 	});
 
-	return filtered;
+	return typeResults;
 };
 
-export const createMulitcastGroup = (allResults: Result[]): MulticastGroup[] => {
+const sortTypesByDate = (typeResults: TypeResults, allResults: Result[]): TypeResults => {
+	const resultsMap = new Map(allResults.map((result) => [result.id, result]));
+
+	Object.entries(typeResults).forEach(([type, resultIds]) => {
+		typeResults[type] = resultIds.sort((a, b) => {
+			const aDate = new Date(resultsMap.get(a)?.date || "").getTime();
+			const bDate = new Date(resultsMap.get(b)?.date || "").getTime();
+			if (aDate === bDate) return 0;
+			return bDate - aDate; // descending order
+		});
+	});
+
+	return typeResults;
+};
+
+export const sortResultId = (multicastGroups: MulticastGroup[], allResults: Result[]): MulticastGroup[] => {
+	return multicastGroups.map((group) => {
+		const typeResults = getTypeResult(group.resultIds, allResults);
+		const sortedTypeResults = sortTypesByDate(typeResults, allResults);
+
+		return {
+			...group,
+			resultIds: [...sortedTypeResults.decision, ...sortedTypeResults.admit, ...sortedTypeResults.reject].slice(
+				0,
+				maxResult,
+			),
+		};
+	});
+};
+
+export const createMulticastGroup = (allResults: Result[]): MulticastGroup[] => {
 	allResults = allResults.filter((result) => result.subscribers.length > 0);
+
 	if (allResults.length === 0) {
 		console.log("Oops, no result to multicast");
 		return [];
@@ -75,7 +94,6 @@ export const createMulitcastGroup = (allResults: Result[]): MulticastGroup[] => 
 
 	const userSubscriptions = mapSubscribersToResults(allResults);
 	const groupedSubscribers = groupSubscribersByResults(userSubscriptions);
-	const filteredSubscribers = filterAdmitted(groupedSubscribers, allResults);
-	const multicastGroups = tranformToArray(filteredSubscribers);
-	return sortResultIdByDate(multicastGroups, allResults);
+	const multicastGroups = transformToArray(groupedSubscribers);
+	return sortResultId(multicastGroups, allResults);
 };
