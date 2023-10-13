@@ -35,14 +35,14 @@ export const generateSubscribtionBubble = (subscribtion: Result): FlexBubble => 
 							contents: [
 								{
 									type: "text",
-									text: subscribtion.major.name,
+									text: subscribtion.university.name,
 									weight: "bold",
 									size: "lg",
 									wrap: true,
 								},
 								{
 									type: "text",
-									text: subscribtion.university.name,
+									text: subscribtion.major.name,
 									weight: "bold",
 									size: "sm",
 									flex: 2,
