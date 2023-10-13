@@ -1,5 +1,5 @@
 import { Client, FlexBubble } from "@line/bot-sdk";
-import { createMulitcastGroup } from "@utils/result/groupResult";
+import { createMulticastGroup } from "@utils/result/groupResult";
 import { assignIdsToResults } from "@utils/result/assignId";
 import { generateSubscribtionCarousel, generateSubscribtionBubble } from "@utils/subscriptionList";
 import updateMultiQuota from "@utils/user/updateQuota";
@@ -7,7 +7,7 @@ import updateMultiQuota from "@utils/user/updateQuota";
 const preciseMulticast = async (line: Client, results: Result[]) => {
 	try {
 		results = assignIdsToResults(results);
-		const multicastGroups = createMulitcastGroup(results);
+		const multicastGroups = createMulticastGroup(results);
 
 		if (multicastGroups.length === 0) {
 			return;
