@@ -57,6 +57,10 @@ type GroupList = {
 	[key: string]: string[];
 };
 
+type TypeResults = {
+	[key: string]: string[];
+};
+
 interface MulticastGroup {
 	resultIds: string[];
 	subscribers: string[];
