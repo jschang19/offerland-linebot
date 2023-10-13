@@ -1,46 +1,31 @@
-import { createMulitcastGroup, filterAdmitted } from ".././../utils/result/groupResult";
+import { createMulticastGroup, sortResultId } from ".././../utils/result/groupResult";
 import { mockResults, generateMockResults } from "../../utils/test/mockResults";
 
 describe("test filiterResultByType", () => {
 	test("should return a filtered group", () => {
-		const testGroup = {
-			"a,b,c,d,e,f,g,h": ["1", "2", "3", "4"],
-		};
+		const testData: Result[] = generateMockResults(2, 1, 0);
+		const testGroup = [
+			{
+				resultIds: ["a", "b", "c"],
+				subscribers: ["1", "2", "3"],
+			},
+		];
+		const expected = [
+			{
+				resultIds: ["b", "c", "a"],
+				subscribers: ["1", "2", "3"],
+			},
+		];
 
-		const testData: Result[] = generateMockResults(10, 2);
-
-		const expected = {
-			"a,b": ["1", "2", "3", "4"],
-		};
-		const actual = filterAdmitted(testGroup, testData);
-		expect(actual).toEqual(expected);
-	});
-
-	test("should return 2 filtered groups", () => {
-		const testGroup = {
-			"a,b,c,d,e,f,g,h": ["1", "2", "3", "4"], // reach the limit of 6
-			"a,b,c": ["87", "88"],
-		};
-		const testUser: User = {
-			name: "test shawn",
-			graduated_university: "test_123",
-		};
-
-		const testData: Result[] = generateMockResults(10, 2);
-
-		const expected = {
-			"a,b": ["1", "2", "3", "4"],
-			"a,b,c": ["87", "88"],
-		};
-		const actual = filterAdmitted(testGroup, testData);
+		const actual = sortResultId(testGroup, testData);
 		expect(actual).toEqual(expected);
 	});
 });
-describe("test createMulitcastGroup", () => {
+describe("test createMulticastGroup", () => {
 	test("should return empty array when results has no subscribers ", () => {
 		const results: any[] = mockResults([]);
 		const expected: any[] = [];
-		const actual = createMulitcastGroup(results);
+		const actual = results;
 		expect(actual).toEqual(expected);
 	});
 
@@ -48,6 +33,7 @@ describe("test createMulitcastGroup", () => {
 		const results: any[] = [
 			{
 				id: "a",
+				type: "admit",
 				subscribers: [
 					{
 						line_id: "1",
@@ -59,6 +45,7 @@ describe("test createMulitcastGroup", () => {
 			},
 			{
 				id: "b",
+				type: "decision",
 				subscribers: [
 					{
 						line_id: "1",
@@ -72,12 +59,12 @@ describe("test createMulitcastGroup", () => {
 
 		const expected: any[] = [
 			{
-				resultIds: ["a", "b"],
+				resultIds: ["b", "a"],
 				subscribers: ["1", "2"],
 			},
 		];
 
-		const actual = createMulitcastGroup(results);
+		const actual = createMulticastGroup(results);
 		expect(actual).toEqual(expected);
 	});
 
@@ -85,6 +72,7 @@ describe("test createMulitcastGroup", () => {
 		const results: any[] = [
 			{
 				id: "a",
+				type: "admit",
 				subscribers: [
 					{
 						line_id: "1",
@@ -96,6 +84,7 @@ describe("test createMulitcastGroup", () => {
 			},
 			{
 				id: "b",
+				type: "reject",
 				subscribers: [
 					{
 						line_id: "1",
@@ -107,6 +96,7 @@ describe("test createMulitcastGroup", () => {
 			},
 			{
 				id: "c",
+				type: "decision",
 				subscribers: [
 					{
 						line_id: "3",
@@ -126,7 +116,7 @@ describe("test createMulitcastGroup", () => {
 			},
 		];
 
-		const actual = createMulitcastGroup(results);
+		const actual = createMulticastGroup(results);
 		expect(actual).toEqual(expected);
 	});
 
@@ -134,6 +124,7 @@ describe("test createMulitcastGroup", () => {
 		const results: any[] = [
 			{
 				id: "a",
+				type: "admit",
 				subscribers: [
 					{
 						line_id: "1",
@@ -145,6 +136,7 @@ describe("test createMulitcastGroup", () => {
 			},
 			{
 				id: "b",
+				type: "reject",
 				subscribers: [
 					{
 						line_id: "1",
@@ -156,6 +148,7 @@ describe("test createMulitcastGroup", () => {
 			},
 			{
 				id: "c",
+				type: "reject", // "reject" is not "decision
 				subscribers: [
 					{
 						line_id: "3",
@@ -167,6 +160,7 @@ describe("test createMulitcastGroup", () => {
 			},
 			{
 				id: "d",
+				type: "decision",
 				subscribers: [
 					{
 						line_id: "4",
@@ -185,12 +179,71 @@ describe("test createMulitcastGroup", () => {
 				subscribers: ["3"],
 			},
 			{
-				resultIds: ["c", "d"],
+				resultIds: ["d", "c"],
 				subscribers: ["4"],
 			},
 		];
 
-		const actual = createMulitcastGroup(results);
+		const actual = createMulticastGroup(results);
+		expect(actual).toEqual(expected);
+	});
+
+	test("should return results with desc date", () => {
+		const results: any[] = [
+			{
+				id: "a",
+				type: "reject",
+				date: "2021-01-01",
+				subscribers: [
+					{
+						line_id: "1",
+					},
+				],
+			},
+			{
+				id: "b",
+				type: "reject",
+				date: "2021-01-02",
+				subscribers: [
+					{
+						line_id: "1",
+					},
+				],
+			},
+			{
+				id: "c",
+				type: "decision",
+				date: "2021-01-03",
+				subscribers: [
+					{
+						line_id: "2",
+					},
+				],
+			},
+			{
+				id: "d",
+				type: "decision",
+				date: "2021-01-04",
+				subscribers: [
+					{
+						line_id: "2",
+					},
+				],
+			},
+		];
+
+		const expected: any[] = [
+			{
+				resultIds: ["b", "a"],
+				subscribers: ["1"],
+			},
+			{
+				resultIds: ["d", "c"],
+				subscribers: ["2"],
+			},
+		];
+
+		const actual = createMulticastGroup(results);
 		expect(actual).toEqual(expected);
 	});
 });
