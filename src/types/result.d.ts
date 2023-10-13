@@ -10,6 +10,7 @@ interface Result {
 	university: University;
 	scholarship: Scholarship;
 	country_name: string;
+	field?: Field;
 	subscribers: Subscriber[];
 }
 
@@ -26,7 +27,6 @@ interface Subscriber {
 interface Major {
 	id: string;
 	name: string;
-	// ... other fields
 }
 
 interface Degree {
@@ -40,6 +40,11 @@ interface University {
 }
 
 interface Scholarship {
+	id: string;
+	name: string;
+}
+
+interface Field {
 	id: string;
 	name: string;
 }
