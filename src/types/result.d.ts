@@ -1,7 +1,7 @@
-interface Result {
+type Result = {
 	id: string;
 	date: string;
-	type: string;
+	type: ResultType;
 	user: User;
 	major: Major;
 	degree: Degree;
@@ -12,42 +12,42 @@ interface Result {
 	country_name: string;
 	field?: Field;
 	subscribers: Subscriber[];
-}
+};
 
-interface User {
+type User = {
 	name: string;
 	graduated_university: string;
-}
+};
 
-interface Subscriber {
+type Subscriber = {
 	line_id: string;
 	user_id: string;
-}
+};
 
-interface Major {
+type Major = {
 	id: string;
 	name: string;
-}
+};
 
-interface Degree {
+type Degree = {
 	id: string;
 	name: string;
-}
+};
 
-interface University {
+type University = {
 	id: string;
 	name: string;
-}
+};
 
-interface Scholarship {
+type Scholarship = {
 	id: string;
 	name: string;
-}
+};
 
-interface Field {
+type Field = {
 	id: string;
 	name: string;
-}
+};
 
 type SubscriberList = {
 	[id: string]: string[];
@@ -58,10 +58,12 @@ type GroupList = {
 };
 
 type TypeResults = {
-	[key: string]: string[];
+	[key in ResultType]: string[];
 };
 
-interface MulticastGroup {
+type ResultType = "decision" | "admit" | "reject";
+
+type MulticastGroup = {
 	resultIds: string[];
 	subscribers: string[];
-}
+};
