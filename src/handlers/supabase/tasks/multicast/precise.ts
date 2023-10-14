@@ -8,7 +8,7 @@ const preciseMulticast = async (line: Client, results: Result[]) => {
 	try {
 		const assignedResults = assignIdToResults(results);
 		const multicastGroups = createMulticastGroup(assignedResults);
-		const resultsMap = createResultsMap(results);
+		const resultsMap = createResultsMap(assignedResults);
 
 		if (multicastGroups.length === 0) {
 			return;
@@ -16,7 +16,7 @@ const preciseMulticast = async (line: Client, results: Result[]) => {
 
 		for (const group of multicastGroups) {
 			const messageBubbles: FlexBubble[] = [];
-			let { resultIds, subscribers } = group;
+			const { resultIds, subscribers } = group;
 
 			resultIds.forEach((id) => {
 				const result = resultsMap.get(id);
