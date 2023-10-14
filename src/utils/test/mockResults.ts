@@ -13,13 +13,13 @@ export const mockResults = (subscribers: number[]) => {
 	return results;
 };
 
-export const generateMockResults = (descion: number, admitted: number, reject: number): Result[] => {
-	const total = descion + admitted + reject;
+export const generateMockResults = (decision: number, admitted: number, reject: number): Result[] => {
+	const total = decision + admitted + reject;
 	if (admitted > total) {
 		throw new Error("The number of admitted results cannot exceed the total number of results.");
 	}
 
-	if (total < 0 || descion < 0 || admitted < 0) {
+	if (total < 0 || decision < 0 || admitted < 0) {
 		throw new Error("The number of results cannot be negative.");
 	}
 
@@ -35,13 +35,13 @@ export const generateMockResults = (descion: number, admitted: number, reject: n
 		// then generate reject results if any
 
 		const isAdmitted = admitted > 0;
-		const isDescion = descion > 0;
+		const isDecision = decision > 0;
 		const isReject = reject > 0;
 
 		const result: Result = {
 			id: String.fromCharCode(97 + i), // 97 is the ASCII code for 'a'
 			date: new Date().toDateString(),
-			type: isAdmitted ? "admit" : isDescion ? "descion" : isReject ? "reject" : "unknown",
+			type: isAdmitted ? "admit" : isDecision ? "decision" : isReject ? "reject" : "unknown",
 			user: {
 				name: `User${i}`,
 				graduated_university: `University${i}`,
@@ -77,8 +77,8 @@ export const generateMockResults = (descion: number, admitted: number, reject: n
 
 		if (isAdmitted) {
 			admitted--;
-		} else if (isDescion) {
-			descion--;
+		} else if (isDecision) {
+			decision--;
 		} else if (isReject) {
 			reject--;
 		}
