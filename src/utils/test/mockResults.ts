@@ -41,7 +41,7 @@ export const generateMockResults = (decision: number, admitted: number, reject: 
 		const result: Result = {
 			id: String.fromCharCode(97 + i), // 97 is the ASCII code for 'a'
 			date: new Date().toDateString(),
-			type: isAdmitted ? "admit" : isDecision ? "decision" : isReject ? "reject" : "unknown",
+			type: isAdmitted ? "admit" : isDecision ? "decision" : isReject ? "reject" : "admit",
 			user: {
 				name: `User${i}`,
 				graduated_university: `University${i}`,
