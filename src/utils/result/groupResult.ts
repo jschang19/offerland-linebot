@@ -1,4 +1,5 @@
 const maxResult = 8;
+const maxHardLimit = 11;
 
 export const createResultsMap = (allResults: Result[]): Map<string, Result> => {
 	return new Map(allResults.map((result) => [result.id, result]));
@@ -109,37 +110,44 @@ export const createPreciseGroup = (allResults: Result[]): MulticastGroup[] => {
 	return sortResultId(multicastGroups, validResults);
 };
 
+const addOrUpdateField = (fieldArray: ExtensiveGroup[], result: Result) => {
+	const field = fieldArray.find(
+		(field) => field.field.id === result.field!.id && field.country_id === result.country_id,
+	);
+	if (!field) {
+		fieldArray.push({
+			country_id: result.country_id,
+			country_name: result.country_name,
+			field: {
+				id: result.field!.id,
+				name: result.field!.name,
+			},
+			results: 1,
+		});
+	} else {
+		field.results++;
+	}
+};
+
 const groupFieldResults = (
 	resultGroup: MulticastGroup[],
 	allResults: Result[],
 ): {
-	fields: ExtensiveField[];
+	fields: ExtensiveGroup[];
 	subscribers: string[];
 }[] => {
+	const resultMap = createResultsMap(allResults);
 	return resultGroup.map((group) => {
-		const fieldArray: ExtensiveField[] = [];
+		const fieldArray: ExtensiveGroup[] = [];
 		group.resultIds.forEach((id) => {
-			const result = allResults.find((result) => result.id === id);
+			const result = resultMap.get(id) || null;
 			if (!result) return;
-			const field = fieldArray.find((field) => field.field.id === result.field!.id);
-			if (!field) {
-				fieldArray.push({
-					country_id: result.country_id,
-					country_name: result.country_name,
-					field: {
-						id: result.field!.id,
-						name: result.field!.name,
-					},
-					results: 1,
-				});
-			} else {
-				field.results++;
-			}
+			addOrUpdateField(fieldArray, result);
 		});
 
 		return {
 			subscribers: group.subscribers,
-			fields: fieldArray,
+			fields: fieldArray.slice(0, maxHardLimit),
 		};
 	});
 };
