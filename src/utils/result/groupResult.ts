@@ -129,27 +129,27 @@ const addOrUpdateField = (fieldArray: ExtensiveField[], result: Result) => {
 	}
 };
 
-const groupFieldResults = (resultGroups: Map<string, string[]>, allResults: Result[]): ExtensiveGroup[] => {
+const groupFieldResults = (
+	resultGroup: MulticastGroup[],
+	allResults: Result[],
+): {
+	fields: ExtensiveField[];
+	subscribers: string[];
+}[] => {
 	const resultMap = createResultsMap(allResults);
-	const groups: ExtensiveGroup[] = [];
-
-	resultGroups.forEach((resultIds, subscriber) => {
-		const fields: ExtensiveField[] = [];
-
-		resultIds.forEach((id) => {
-			const result = resultMap.get(id);
+	return resultGroup.map((group) => {
+		const fieldArray: ExtensiveField[] = [];
+		group.resultIds.forEach((id) => {
+			const result = resultMap.get(id) || null;
 			if (!result) return;
-
-			addOrUpdateField(fields, result);
+			addOrUpdateField(fieldArray, result);
 		});
 
-		groups.push({
-			subscribers: [subscriber],
-			fields,
-		});
+		return {
+			subscribers: group.subscribers,
+			fields: fieldArray.slice(0, maxHardLimit),
+		};
 	});
-
-	return groups;
 };
 
 export const createExtensiveGroup = (allResults: Result[]) => {
@@ -159,6 +159,6 @@ export const createExtensiveGroup = (allResults: Result[]) => {
 
 	const userSubscriptionsMap = mapSubscribersToResults(validResults);
 	const multicastGroupsMap = groupSubscribersByResults(userSubscriptionsMap);
-	const multicastGroups = groupFieldResults(multicastGroupsMap, validResults);
-	return multicastGroups;
+	const multicastGroups = transformMapToArray(multicastGroupsMap);
+	return groupFieldResults(multicastGroups, validResults);
 };
