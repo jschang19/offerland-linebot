@@ -108,3 +108,49 @@ export const createMulticastGroup = (allResults: Result[]): MulticastGroup[] => 
 	const multicastGroups = transformMapToArray(multicastGroupsMap);
 	return sortResultId(multicastGroups, validResults);
 };
+
+const groupFieldResults = (
+	resultGroup: MulticastGroup[],
+	allResults: Result[],
+): {
+	fields: ExtensiveField[];
+	subscribers: string[];
+}[] => {
+	return resultGroup.map((group) => {
+		const fieldArray: ExtensiveField[] = [];
+		group.resultIds.forEach((id) => {
+			const result = allResults.find((result) => result.id === id);
+			if (!result) return;
+			const field = fieldArray.find((field) => field.field.id === result.field!.id);
+			if (!field) {
+				fieldArray.push({
+					country_id: result.country_id,
+					country_name: result.country_name,
+					field: {
+						id: result.field!.id,
+						name: result.field!.name,
+					},
+					results: 1,
+				});
+			} else {
+				field.results++;
+			}
+		});
+
+		return {
+			subscribers: group.subscribers,
+			fields: fieldArray,
+		};
+	});
+};
+
+export const createExtensiveGroup = (allResults: Result[]) => {
+	const validResults = allResults.filter((result) => result.subscribers.length > 0);
+
+	if (validResults.length === 0) return [];
+
+	const userSubscriptionsMap = mapSubscribersToResults(validResults);
+	const multicastGroupsMap = groupSubscribersByResults(userSubscriptionsMap);
+	const multicastGroups = transformMapToArray(multicastGroupsMap);
+	return groupFieldResults(multicastGroups, validResults);
+};
