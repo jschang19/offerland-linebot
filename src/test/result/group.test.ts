@@ -1,5 +1,5 @@
-import { createPreciseGroup, sortResultId } from ".././../utils/result/groupResult";
-import { mockResults, generateMockResults } from "../../utils/test/mockResults";
+import { createPreciseGroup, sortResultId, createExtensiveGroup } from ".././../utils/result/groupResult";
+import { mockResults, generateMockResults, generateFieldResults } from "../../utils/test/mockResults";
 
 describe("test filiterResultByType", () => {
 	test("should return a filtered group", () => {
@@ -7,13 +7,13 @@ describe("test filiterResultByType", () => {
 		const testGroup = [
 			{
 				resultIds: ["a", "b", "c"],
-				subscribers: ["1", "2", "3"],
+				subscribers: ["L1", "L2", "L3"],
 			},
 		];
 		const expected = [
 			{
 				resultIds: ["b", "c", "a"],
-				subscribers: ["1", "2", "3"],
+				subscribers: ["L1", "L2", "L3"],
 			},
 		];
 
@@ -21,7 +21,7 @@ describe("test filiterResultByType", () => {
 		expect(actual).toEqual(expected);
 	});
 });
-describe("test createPreciseGroup", () => {
+describe("test creating precise subscription group", () => {
 	test("should return empty array when results has no subscribers ", () => {
 		const results: any[] = mockResults([]);
 		const expected: any[] = [];
@@ -244,6 +244,234 @@ describe("test createPreciseGroup", () => {
 		];
 
 		const actual = createPreciseGroup(results);
+		expect(actual).toEqual(expected);
+	});
+});
+
+describe("test creating extensive subscription group", () => {
+	test("should return empty array when results has no subscribers ", () => {
+		const results: any[] = mockResults([]);
+		const expected: any[] = [];
+		const actual = results;
+		expect(actual).toEqual(expected);
+	});
+
+	test("should return 3 groups with 3 different fields", () => {
+		const results: any[] = generateFieldResults(
+			["Field0", "Field1", "Field2"],
+			["Country0", "Country1", "Country2"],
+			[
+				[
+					{
+						line_id: "L0",
+						user_id: "U0",
+					},
+				],
+				[
+					{
+						line_id: "L1",
+						user_id: "U1",
+					},
+				],
+				[
+					{
+						line_id: "L2",
+						user_id: "U2",
+					},
+				],
+			],
+		);
+
+		const actual = createExtensiveGroup(results);
+		const expected: any[] = [
+			{
+				fields: [
+					{
+						country_id: "Country0",
+						country_name: "Country Name 0",
+						field: {
+							id: "Field0",
+							name: "Field0",
+						},
+						results: 1,
+					},
+				],
+				subscribers: ["L0"],
+			},
+			{
+				fields: [
+					{
+						country_id: "Country1",
+						country_name: "Country Name 1",
+						field: {
+							id: "Field1",
+							name: "Field1",
+						},
+						results: 1,
+					},
+				],
+				subscribers: ["L1"],
+			},
+			{
+				fields: [
+					{
+						country_id: "Country2",
+						country_name: "Country Name 2",
+						field: {
+							id: "Field2",
+							name: "Field2",
+						},
+						results: 1,
+					},
+				],
+				subscribers: ["L2"],
+			},
+		];
+		expect(actual).toEqual(expected);
+	});
+
+	test("should return 2 groups with same field and different country", () => {
+		const testFields = ["Field0", "Field1", "Field1"];
+		const testCountries = ["Country0", "Country1", "Country2"];
+		const testSubscribers: Subscriber[][] = [
+			[
+				{
+					line_id: "L0",
+					user_id: "U0",
+				},
+			],
+			[
+				{
+					line_id: "L1",
+					user_id: "U1",
+				},
+				{
+					line_id: "L2",
+					user_id: "U2",
+				},
+			],
+			[
+				{
+					line_id: "L1",
+					user_id: "U1",
+				},
+				{
+					line_id: "L2",
+					user_id: "U2",
+				},
+			],
+		];
+
+		const results: any[] = generateFieldResults(testFields, testCountries, testSubscribers);
+		const expected: any[] = [
+			{
+				fields: [
+					{
+						country_id: "Country0",
+						country_name: "Country Name 0",
+						field: {
+							id: "Field0",
+							name: "Field0",
+						},
+						results: 1,
+					},
+				],
+				subscribers: ["L0"],
+			},
+			{
+				fields: [
+					{
+						country_id: "Country1",
+						country_name: "Country Name 1",
+						field: {
+							id: "Field1",
+							name: "Field1",
+						},
+						results: 1,
+					},
+					{
+						country_id: "Country2",
+						country_name: "Country Name 2",
+						field: {
+							id: "Field1",
+							name: "Field1",
+						},
+						results: 1,
+					},
+				],
+				subscribers: ["L1", "L2"],
+			},
+		];
+
+		const actual = createExtensiveGroup(results);
+		expect(actual).toEqual(expected);
+	});
+
+	test("should return 2 groups with same field and country", () => {
+		const testFields = ["Field0", "Field1", "Field1"];
+		const testCountries = ["Country0", "Country1", "Country1"];
+		const testSubscribers: Subscriber[][] = [
+			[
+				{
+					line_id: "L0",
+					user_id: "U0",
+				},
+			],
+			[
+				{
+					line_id: "L1",
+					user_id: "U1",
+				},
+				{
+					line_id: "L2",
+					user_id: "U2",
+				},
+			],
+			[
+				{
+					line_id: "L1",
+					user_id: "U1",
+				},
+				{
+					line_id: "L2",
+					user_id: "U2",
+				},
+			],
+		];
+
+		const results: any[] = generateFieldResults(testFields, testCountries, testSubscribers);
+		const expected: any[] = [
+			{
+				fields: [
+					{
+						country_id: "Country0",
+						country_name: "Country Name 0",
+						field: {
+							id: "Field0",
+							name: "Field0",
+						},
+						results: 1,
+					},
+				],
+				subscribers: ["L0"],
+			},
+			{
+				fields: [
+					{
+						country_id: "Country1",
+						country_name: "Country Name 1",
+						field: {
+							id: "Field1",
+							name: "Field1",
+						},
+						results: 2,
+					},
+				],
+				subscribers: ["L1", "L2"],
+			},
+		];
+
+		const actual = createExtensiveGroup(results);
 		expect(actual).toEqual(expected);
 	});
 });

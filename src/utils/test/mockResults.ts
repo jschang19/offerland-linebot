@@ -60,6 +60,10 @@ export const generateMockResults = (decision: number, admitted: number, reject: 
 				id: `u${i}`,
 				name: `University${i}`,
 			},
+			field: {
+				id: `f${i}`,
+				name: `Field${i}`,
+			},
 			scholarship: {
 				id: `s${i}`,
 				name: `Scholarship${i}`,
@@ -84,5 +88,52 @@ export const generateMockResults = (decision: number, admitted: number, reject: 
 		}
 	}
 
+	return results;
+};
+
+export const generateFieldResults = (
+	fields: string[],
+	countries: string[],
+	testSubscribers: Subscriber[][],
+): Result[] => {
+	const results: Result[] = [];
+	let id = 0;
+
+	for (let i = 0; i < fields.length; i++) {
+		results.push({
+			id: id.toString(),
+			date: new Date().toDateString(),
+			type: "admit",
+			user: {
+				name: `User${id}`,
+				graduated_university: `University${id}`,
+			},
+			major: {
+				id: `m${id}`,
+				name: `Major${id}`,
+			},
+			degree: {
+				id: `d${id}`,
+				name: `Degree${id}`,
+			},
+			country_id: countries[i],
+			created_at: new Date().toDateString(),
+			university: {
+				id: `u${id}`,
+				name: `University${id}`,
+			},
+			field: {
+				id: fields[i],
+				name: fields[i],
+			},
+			scholarship: {
+				id: `s${id}`,
+				name: `Scholarship${id}`,
+			},
+			country_name: `Country Name ${countries[i].slice(-1)}`,
+			subscribers: testSubscribers[id],
+		});
+		id++;
+	}
 	return results;
 };
