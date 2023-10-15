@@ -1,16 +1,16 @@
 import { Client, FlexBubble, LINE_REQUEST_ID_HTTP_HEADER_NAME } from "@line/bot-sdk";
-import { createMulticastGroup, createResultsMap } from "@utils/result/groupResult";
+import { createPreciseGroup, createResultsMap } from "@utils/result/groupResult";
 import { assignIdToResults } from "@utils/result/assignId";
-import { generateSubscribtionCarousel, generateSubscribtionBubble } from "@utils/subscriptionList";
+import { generateSubscribtionCarousel, generateSubscribtionBubble } from "@utils/line/message/multicast";
 import updateMultiQuota from "@utils/user/updateQuota";
 
 const preciseMulticast = async (line: Client, results: Result[]) => {
 	try {
 		const assignedResults = assignIdToResults(results);
-		const multicastGroups = createMulticastGroup(assignedResults);
+		const multicastGroups = createPreciseGroup(assignedResults);
 		const resultsMap = createResultsMap(assignedResults);
 
-		if (multicastGroups.length === 0) {
+		if (!multicastGroups) {
 			return;
 		}
 

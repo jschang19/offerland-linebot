@@ -1,4 +1,4 @@
-import { createMulticastGroup, sortResultId } from ".././../utils/result/groupResult";
+import { createPreciseGroup, sortResultId } from ".././../utils/result/groupResult";
 import { mockResults, generateMockResults } from "../../utils/test/mockResults";
 
 describe("test filiterResultByType", () => {
@@ -21,7 +21,7 @@ describe("test filiterResultByType", () => {
 		expect(actual).toEqual(expected);
 	});
 });
-describe("test createMulticastGroup", () => {
+describe("test createPreciseGroup", () => {
 	test("should return empty array when results has no subscribers ", () => {
 		const results: any[] = mockResults([]);
 		const expected: any[] = [];
@@ -64,7 +64,7 @@ describe("test createMulticastGroup", () => {
 			},
 		];
 
-		const actual = createMulticastGroup(results);
+		const actual = createPreciseGroup(results);
 		expect(actual).toEqual(expected);
 	});
 
@@ -116,7 +116,7 @@ describe("test createMulticastGroup", () => {
 			},
 		];
 
-		const actual = createMulticastGroup(results);
+		const actual = createPreciseGroup(results);
 		expect(actual).toEqual(expected);
 	});
 
@@ -184,7 +184,7 @@ describe("test createMulticastGroup", () => {
 			},
 		];
 
-		const actual = createMulticastGroup(results);
+		const actual = createPreciseGroup(results);
 		expect(actual).toEqual(expected);
 	});
 
@@ -243,7 +243,7 @@ describe("test createMulticastGroup", () => {
 			},
 		];
 
-		const actual = createMulticastGroup(results);
+		const actual = createPreciseGroup(results);
 		expect(actual).toEqual(expected);
 	});
 });

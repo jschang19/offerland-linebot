@@ -98,7 +98,7 @@ export const sortResultId = (multicastGroups: MulticastGroup[], allResults: Resu
 	});
 };
 
-export const createMulticastGroup = (allResults: Result[]): MulticastGroup[] => {
+export const createPreciseGroup = (allResults: Result[]): MulticastGroup[] => {
 	const validResults = allResults.filter((result) => result.subscribers.length > 0);
 
 	if (validResults.length === 0) return [];
