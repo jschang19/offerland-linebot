@@ -110,7 +110,7 @@ export const createPreciseGroup = (allResults: Result[]): MulticastGroup[] => {
 	return sortResultId(multicastGroups, validResults);
 };
 
-const addOrUpdateField = (fieldArray: ExtensiveGroup[], result: Result) => {
+const addOrUpdateField = (fieldArray: ExtensiveField[], result: Result) => {
 	const field = fieldArray.find(
 		(field) => field.field.id === result.field!.id && field.country_id === result.country_id,
 	);
@@ -129,27 +129,27 @@ const addOrUpdateField = (fieldArray: ExtensiveGroup[], result: Result) => {
 	}
 };
 
-const groupFieldResults = (
-	resultGroup: MulticastGroup[],
-	allResults: Result[],
-): {
-	fields: ExtensiveGroup[];
-	subscribers: string[];
-}[] => {
+const groupFieldResults = (resultGroups: Map<string, string[]>, allResults: Result[]): ExtensiveGroup[] => {
 	const resultMap = createResultsMap(allResults);
-	return resultGroup.map((group) => {
-		const fieldArray: ExtensiveGroup[] = [];
-		group.resultIds.forEach((id) => {
-			const result = resultMap.get(id) || null;
+	const groups: ExtensiveGroup[] = [];
+
+	resultGroups.forEach((resultIds, subscriber) => {
+		const fields: ExtensiveField[] = [];
+
+		resultIds.forEach((id) => {
+			const result = resultMap.get(id);
 			if (!result) return;
-			addOrUpdateField(fieldArray, result);
+
+			addOrUpdateField(fields, result);
 		});
 
-		return {
-			subscribers: group.subscribers,
-			fields: fieldArray.slice(0, maxHardLimit),
-		};
+		groups.push({
+			subscribers: [subscriber],
+			fields,
+		});
 	});
+
+	return groups;
 };
 
 export const createExtensiveGroup = (allResults: Result[]) => {
@@ -159,6 +159,6 @@ export const createExtensiveGroup = (allResults: Result[]) => {
 
 	const userSubscriptionsMap = mapSubscribersToResults(validResults);
 	const multicastGroupsMap = groupSubscribersByResults(userSubscriptionsMap);
-	const multicastGroups = transformMapToArray(multicastGroupsMap);
-	return groupFieldResults(multicastGroups, validResults);
+	const multicastGroups = groupFieldResults(multicastGroupsMap, validResults);
+	return multicastGroups;
 };

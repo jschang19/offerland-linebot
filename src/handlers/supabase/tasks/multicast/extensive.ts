@@ -1,7 +1,7 @@
 import { Client, FlexBubble, LINE_REQUEST_ID_HTTP_HEADER_NAME } from "@line/bot-sdk";
 import { createExtensiveGroup, createResultsMap } from "@utils/result/groupResult";
 import { assignIdToResults } from "@utils/result/assignId";
-import { generateExtensiveBubble, generateSubscribtionCarousel } from "@utils/line/message/multicast";
+import { generateExtensiveBubbles, generateSubscribtionCarousel } from "@utils/line/message/multicast";
 import updateMultiQuota from "@utils/user/updateQuota";
 
 const extensiveMulticast = async (line: Client, results: Result[]) => {
@@ -14,15 +14,11 @@ const extensiveMulticast = async (line: Client, results: Result[]) => {
 		}
 
 		for (const group of multicastGroups) {
-			const messageBubbles: FlexBubble[] = [];
 			const { fields, subscribers } = group;
-
-			fields.forEach((field) => {
-				const messageBubble = generateExtensiveBubble(field);
-				messageBubbles.push(messageBubble);
-			});
+			const messageBubbles: FlexBubble[] = generateExtensiveBubbles(fields);
 			const carousel = generateSubscribtionCarousel(messageBubbles);
 			await line.multicast(subscribers, carousel);
+			await updateMultiQuota(subscribers);
 		}
 
 		console.log("Extensive multicast task finished.");

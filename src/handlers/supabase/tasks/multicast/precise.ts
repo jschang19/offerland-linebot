@@ -1,7 +1,7 @@
 import { Client, FlexBubble, LINE_REQUEST_ID_HTTP_HEADER_NAME } from "@line/bot-sdk";
 import { createPreciseGroup, createResultsMap } from "@utils/result/groupResult";
 import { assignIdToResults } from "@utils/result/assignId";
-import { generateSubscribtionCarousel, generateSubscribtionBubble } from "@utils/line/message/multicast";
+import { generateSubscribtionCarousel, generatePreciseBubbles } from "@utils/line/message/multicast";
 import updateMultiQuota from "@utils/user/updateQuota";
 
 const preciseMulticast = async (line: Client, results: Result[]) => {
@@ -15,18 +15,8 @@ const preciseMulticast = async (line: Client, results: Result[]) => {
 		}
 
 		for (const group of multicastGroups) {
-			const messageBubbles: FlexBubble[] = [];
 			const { resultIds, subscribers } = group;
-
-			resultIds.forEach((id) => {
-				const result = resultsMap.get(id);
-				if (!result) {
-					console.error(`Result ${id} not found!`);
-					return;
-				}
-				const bubble = generateSubscribtionBubble(result);
-				messageBubbles.push(bubble);
-			});
+			const messageBubbles: FlexBubble[] = generatePreciseBubbles(resultIds, resultsMap);
 			const carouselMessage = generateSubscribtionCarousel(messageBubbles);
 			const lineApiResponse = await line.multicast(subscribers, carouselMessage);
 
