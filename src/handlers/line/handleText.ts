@@ -30,7 +30,8 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 			case "找服務":
 				return ServiceMessage;
 			default:
-				return TextMessageWrapper("I don’t know what you mean??\n\n just kidding, I know what you mean");
+				// 不回覆任何訊息
+				return;
 		}
 	} catch (error: any) {
 		console.error("An error occurred:", error.message); // Log the error message
