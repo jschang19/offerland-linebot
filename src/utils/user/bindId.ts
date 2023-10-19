@@ -1,4 +1,4 @@
-const bindUserdByToken = async (userId: string, token: string) => {
+async function bindUserdByToken(userId: string, token: string) {
 	const { error } = await global.supabase.rpc("update_user_id_by_token", {
 		user_id: userId,
 		client_token: token,
@@ -10,6 +10,6 @@ const bindUserdByToken = async (userId: string, token: string) => {
 	}
 
 	return true;
-};
+}
 
 export default bindUserdByToken;

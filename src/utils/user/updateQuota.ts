@@ -1,4 +1,4 @@
-const updateMultiQuota = async (users: string[]) => {
+async function updateMultiQuota(users: string[]) {
 	const { error } = await global.supabase.rpc("update_line_quota", {
 		line_ids: users,
 	});
@@ -7,6 +7,6 @@ const updateMultiQuota = async (users: string[]) => {
 		console.error("updateMultiQuota error: " + error);
 	}
 	return;
-};
+}
 
 export default updateMultiQuota;
