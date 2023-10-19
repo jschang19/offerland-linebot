@@ -41,6 +41,7 @@ const transformMapToArray = (groups: Map<string, string[]>): MulticastGroup[] =>
 	}));
 };
 
+// 根據落點資料的 type 進行分類
 const getTypeResult = (resultIds: string[], resultsMap: Map<string, Result>): TypeResults => {
 	const typeResults: TypeResults = {
 		decision: [],
@@ -58,6 +59,8 @@ const getTypeResult = (resultIds: string[], resultsMap: Map<string, Result>): Ty
 	return typeResults;
 };
 
+// 依照 decision, admit, reject 的順序進行排序
+// 根據各個 type，依照時間進行倒敘排序
 const sortTypesByDate = (typeResults: TypeResults, resultsMap: Map<string, Result>): TypeResults => {
 	const sortedTypeResults: TypeResults = {
 		decision: [],
@@ -65,7 +68,6 @@ const sortTypesByDate = (typeResults: TypeResults, resultsMap: Map<string, Resul
 		reject: [],
 	};
 
-	// 針對 decision, admit, reject 的 result ids 分別依照時間排序
 	Object.entries(typeResults).forEach(([type, resultIds]) => {
 		const sortedResultIds = resultIds.sort((a, b) => {
 			const aDate = resultsMap.get(a)?.date;
@@ -73,7 +75,7 @@ const sortTypesByDate = (typeResults: TypeResults, resultsMap: Map<string, Resul
 
 			if (!aDate || !bDate) return 0;
 
-			return new Date(bDate).getTime() - new Date(aDate).getTime(); // descending order
+			return new Date(bDate).getTime() - new Date(aDate).getTime();
 		});
 
 		sortedTypeResults[type as keyof TypeResults] = sortedResultIds;
@@ -82,13 +84,14 @@ const sortTypesByDate = (typeResults: TypeResults, resultsMap: Map<string, Resul
 	return sortedTypeResults;
 };
 
+// 將各個推播群組的落點 ID 進行排序
 export const sortResultId = (multicastGroups: MulticastGroup[], allResults: Result[]): MulticastGroup[] => {
-	// for each group, sort resultIds by date and type
 	const resultsMap = createResultsMap(allResults);
 	return multicastGroups.map((group) => {
 		const typeResults = getTypeResult(group.resultIds, resultsMap);
 		const sortedTypeResults = sortTypesByDate(typeResults, resultsMap);
 
+		// 將 decision, admit, reject 的結果合併，並取前 maxResult 個
 		return {
 			...group,
 			resultIds: [...sortedTypeResults.decision, ...sortedTypeResults.admit, ...sortedTypeResults.reject].slice(
@@ -99,17 +102,7 @@ export const sortResultId = (multicastGroups: MulticastGroup[], allResults: Resu
 	});
 };
 
-export const createPreciseGroup = (allResults: Result[]): MulticastGroup[] => {
-	const validResults = allResults.filter((result) => result.subscribers.length > 0);
-
-	if (validResults.length === 0) return [];
-
-	const userSubscriptionsMap = mapSubscribersToResults(validResults);
-	const multicastGroupsMap = groupSubscribersByResults(userSubscriptionsMap);
-	const multicastGroups = transformMapToArray(multicastGroupsMap);
-	return sortResultId(multicastGroups, validResults);
-};
-
+// 將落點資料根據國家 & 學群進行分類
 const addOrUpdateField = (fieldArray: ExtensiveField[], result: Result) => {
 	const field = fieldArray.find(
 		(field) => field.field.id === result.field!.id && field.country_id === result.country_id,
@@ -150,6 +143,17 @@ const groupFieldResults = (
 			fields: fieldArray.slice(0, maxHardLimit),
 		};
 	});
+};
+
+export const createPreciseGroup = (allResults: Result[]): MulticastGroup[] => {
+	const validResults = allResults.filter((result) => result.subscribers.length > 0);
+
+	if (validResults.length === 0) return [];
+
+	const userSubscriptionsMap = mapSubscribersToResults(validResults);
+	const multicastGroupsMap = groupSubscribersByResults(userSubscriptionsMap);
+	const multicastGroups = transformMapToArray(multicastGroupsMap);
+	return sortResultId(multicastGroups, validResults);
 };
 
 export const createExtensiveGroup = (allResults: Result[]) => {
