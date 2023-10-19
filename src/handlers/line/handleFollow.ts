@@ -1,22 +1,18 @@
 import { Client, FollowEvent, Profile } from "@line/bot-sdk";
 import { TextMessageWrapper } from "@utils/line/message";
-import { nanoid } from "nanoid";
+import { generateBindingToken } from "@utils/user/generateToken";
+import { addLINEUser } from "@utils/user/addLineUser";
 
 const handleFollow = async (line: Client, event: FollowEvent) => {
 	try {
 		const lineUserId = event.source.userId!;
-		const bindingToken = nanoid();
+		const bindingToken = await generateBindingToken(lineUserId);
 
 		// Add line ID to Supabase
-		const { error } = await global.supabase.rpc("add_line_id", {
-			gcf_line_id: lineUserId,
-			gcf_token: bindingToken,
-		});
-
-		// Log error if any occurs during the insertion to Supabase
-		if (error) {
+		try {
+			await addLINEUser(lineUserId, bindingToken);
+		} catch (error) {
 			console.error("Follow handler can't add line id to supabase\n\nerr:", error);
-			return TextMessageWrapper("An error occurred while binding the account. Please try again later.");
 		}
 
 		// Retrieve the profile of the user
