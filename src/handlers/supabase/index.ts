@@ -1,12 +1,12 @@
 import { Client } from "@line/bot-sdk";
-import handleMulticast from "./tasks/multicast/handler";
+import handleMulticast from "./tasks/multicast";
 
 const handleSupabase = async (
 	line: Client,
 	param: string[],
 	body: {
 		results: Result[];
-	},
+	}
 ) => {
 	try {
 		const task = param[2];
