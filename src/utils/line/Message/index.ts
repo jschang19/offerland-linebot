@@ -96,9 +96,9 @@ export function BindingMessage(bindingId: string): FlexMessage {
 						action: {
 							type: "uri",
 							label: "綁定",
-							uri: "http://localhost:5173/auth/line/?token=" + bindingId,
+							uri: `${process.env.WEBSITE_URL}/auth/line/?token=${bindingId}`,
 						},
-						color: "#1919E8",
+						color: process.env.MAIN_COLOR,
 						height: "md",
 						style: "primary",
 					},
@@ -129,7 +129,7 @@ export function servicesListMessage() {
 						color: "#FFFFFF",
 					},
 				],
-				backgroundColor: "#1919E8",
+				backgroundColor: process.env.MAIN_COLOR,
 			},
 			footer: {
 				type: "box",
