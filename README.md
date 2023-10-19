@@ -38,25 +38,21 @@ Start the server, the server will run on `localhost:8080`
 
 ## API Reference
 
-#### LINE Webhook
+### LINE Webhook
 
-```http
-  POST /line
-```
+#### POST `/line`
 
-Use `{your_domain_of_the_function}/line` as the Webhook URL in your project dashboard.
+Set `{your_domain_of_the_function}/line` as the Webhook URL in your LINE developer project dashboard.
 
 For more details, follow [LINE Official Messaging API Doc ](https://developers.line.biz/en/reference/messaging-api/#webhooks) to call the API.
 
-#### Supabase Cronjob trigger
+### Supabase Cronjob trigger
 
-```http
-  POST /offerland-trigger/precise-recommend
-```
+#### POST`/supabase/{task}/{multicast_type}`
 
-| Parameter | Type     | Description                                         |
-| :-------- | :------- | :-------------------------------------------------- |
-| `users`   | `string` | **Required**. Lists of users who upload new results |
+| Parameter | Type    | Description                                  |
+| :-------- | :------ | :------------------------------------------- |
+| `results` | `Array` | **Required**. Lists of new uploaded results. |
 
 ## Environment Variables
 
@@ -66,4 +62,5 @@ To run this project, you will need to add the following environment variables to
 LINE_CHANNEL_ACCESS_TOKEN=
 LINE_CHANNEL_SECRET=
 SUPABASE_SERVICE_KEY=
+SUPABASE_URL=
 ```
