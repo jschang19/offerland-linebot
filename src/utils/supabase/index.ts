@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../../types/database.types";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -31,6 +32,6 @@ const getSupabaseConfig = (): SupabaseConfig => {
 };
 
 const config = getSupabaseConfig();
-const supabase: SupabaseClient = createClient(config.url, config.serviceKey, config.options);
+const supabase: SupabaseClient = createClient<Database>(config.url, config.serviceKey, config.options);
 
 export { supabase };
