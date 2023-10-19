@@ -35,7 +35,7 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 		}
 	} catch (error: any) {
 		console.error("An error occurred:", error.message); // Log the error message
-		return TextMessageWrapper(`mes error:\n${error.message}`); // Return a user-friendly error message
+		return;
 	}
 };
 
