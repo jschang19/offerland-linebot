@@ -24,9 +24,9 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 				const { error: unbindError } = await unbindUser(userId);
 				if (unbindError) {
 					console.error("error: ", unbindError);
-					return TextMessageWrapper("解除綁定失敗");
+					return TextMessageWrapper("解除綁定失敗，請稍候再試一次");
 				}
-				return TextMessageWrapper("解除綁定成功");
+				return TextMessageWrapper("解除綁定成功，你不會再收到任何 OfferLand 網站的通知");
 			case "找服務":
 				return ServiceMessage;
 			default:
