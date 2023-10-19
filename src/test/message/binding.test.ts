@@ -2,6 +2,23 @@
 
 import { BindingMessage } from "../../utils/line/message";
 import { FlexMessage } from "@line/bot-sdk";
+import { generateBindingToken } from "../../utils/user/generateToken";
+import { jwtVerify } from "jose";
+
+describe("generateBindingToken", () => {
+	test("should return a token with line id", async () => {
+		const lineId = "123456";
+		const token = await generateBindingToken(lineId);
+		console.log(token);
+		const decoded = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET), {
+			issuer: process.env.WEBSITE_URL,
+			audience: process.env.WEBSITE_URL,
+		});
+
+		expect(decoded.payload.line_id).toBeDefined();
+		expect(decoded.payload.line_id!).toEqual(lineId);
+	});
+});
 
 describe("BindingMessage", () => {
 	test("should return a flex message with id 123456", () => {
@@ -63,9 +80,9 @@ describe("BindingMessage", () => {
 							action: {
 								type: "uri",
 								label: "綁定",
-								uri: "http://localhost:5173/auth/line/?token=123456",
+								uri: `${process.env.WEBSITE_URL}/auth/line/?token=123456`,
 							},
-							color: "#1919E8",
+							color: process.env.MAIN_COLOR,
 							height: "md",
 							style: "primary",
 						},
@@ -136,7 +153,7 @@ describe("BindingMessage", () => {
 							action: {
 								type: "uri",
 								label: "綁定",
-								uri: "http://localhost:5173/auth/line/?token=" + testId,
+								uri: `${process.env.WEBSITE_URL}/auth/line/?token=${testId}`,
 							},
 							color: "#1919E8",
 							height: "md",
