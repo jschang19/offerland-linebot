@@ -3,6 +3,9 @@ import { MessageEvent, TextEventMessage, User } from "@line/bot-sdk";
 import getBindingToken from "@utils/user/getLineBindToken";
 import unbindUser from "@utils/user/unBindId";
 import { ServiceMessage } from "@utils/line/message/service";
+import { generateBindingToken } from "@utils/user/generateToken";
+import { addLINEUser } from "@utils/user/addLineUser";
+import { checkBindingStatus } from "@utils/user/checkBinding";
 
 const handleText = async (event: MessageEvent): Promise<any> => {
 	try {
@@ -13,14 +16,21 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 			case "hi":
 				return TextMessageWrapper("hi there");
 			case "綁定":
-				// TODO: check if user already binding
-				const { token, error } = await getBindingToken(userId);
-				if (error) {
-					console.error("error: ", error);
-					return TextMessageWrapper("綁定失敗");
+				try {
+					const isBinded = await checkBindingStatus(userId);
+					if (isBinded) {
+						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
+					}
+					const { token } = await getBindingToken(userId);
+					return BindingMessage(token!);
+				} catch (error) {
+					return await handleGetTokenError(userId, error);
 				}
-				return BindingMessage(token!);
 			case "解除綁定":
+				const wasBinded = await checkBindingStatus(userId);
+				if (!wasBinded) {
+					return TextMessageWrapper("你目前沒有綁定任何帳號，無須解除綁定");
+				}
 				const { error: unbindError } = await unbindUser(userId);
 				if (unbindError) {
 					console.error("error: ", unbindError);
@@ -34,9 +44,17 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 				return;
 		}
 	} catch (error: any) {
-		console.error("An error occurred:", error.message); // Log the error message
+		console.error("Text Handler Error:", error.message); // Log the error message
 		return;
 	}
 };
 
+const handleGetTokenError = async (userId: string, error: any) => {
+	console.error("Get binding token error: ", error);
+	console.error("userId: ", userId);
+	console.log("the user is added to the database, but you should check if other users have the same problem");
+	const newToken = await generateBindingToken(userId);
+	await addLINEUser(userId, newToken);
+	return BindingMessage(newToken);
+};
 export default handleText;
