@@ -68,7 +68,7 @@ type MulticastGroup = {
 	subscribers: string[];
 };
 
-type ExtensiveGroup = {
+type ExtensiveField = {
 	country_id: string;
 	country_name: string;
 	field: {
@@ -76,4 +76,9 @@ type ExtensiveGroup = {
 		name: string;
 	};
 	results: number;
+};
+
+type ExtensiveGroup = {
+	fields: ExtensiveField[];
+	subscribers: string[];
 };
