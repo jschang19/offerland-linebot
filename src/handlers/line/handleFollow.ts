@@ -6,7 +6,7 @@ import { addLINEUser } from "@utils/user/addLineUser";
 const handleFollow = async (line: Client, event: FollowEvent) => {
 	try {
 		const lineUserId = event.source.userId!;
-		const bindingToken = await generateBindingToken(lineUserId);
+		const bindingToken = await generateBindingToken();
 
 		// Add line ID to Supabase
 		try {

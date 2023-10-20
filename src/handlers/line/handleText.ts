@@ -53,7 +53,7 @@ const handleGetTokenError = async (userId: string, error: any) => {
 	console.error("Get binding token error: ", error);
 	console.error("userId: ", userId);
 	console.log("the user is added to the database, but you should check if other users have the same problem");
-	const newToken = await generateBindingToken(userId);
+	const newToken = await generateBindingToken();
 	await addLINEUser(userId, newToken);
 	return BindingMessage(newToken);
 };

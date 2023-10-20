@@ -4,7 +4,7 @@ import { generateBindingToken } from "./generateToken";
 async function unbindUser(userLineId: string): Promise<{
 	error: PostgrestError | null;
 }> {
-	const newToken = await generateBindingToken(userLineId);
+	const newToken = await generateBindingToken();
 
 	const { error } = await global.supabase
 		.from("user_line")
