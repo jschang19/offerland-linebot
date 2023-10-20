@@ -2,7 +2,7 @@
 module.exports = {
 	preset: "ts-jest",
 	testEnvironment: "node",
-	testMatch: ["**/test/**/*.test.ts"],
+	testMatch: ["**/src/test/**/*.test.ts"],
 };
 
 process.env = Object.assign(process.env, {
