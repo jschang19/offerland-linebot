@@ -1,9 +1,9 @@
 // jest test /message.ts
 
 import { FlexMessage } from "@line/bot-sdk";
+import { jwtVerify } from "jose";
 import { generateBindingToken } from "../../utils/user/generateToken";
 import { BindingMessage } from "../../utils/line/message/template";
-import { jwtVerify } from "jose";
 
 describe("generateBindingToken", () => {
 	test("should return a token with line id", async () => {
