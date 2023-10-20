@@ -13,11 +13,11 @@
 
       },
       "typeRoots": ["./types", "./node_modules/@types"],
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "allowJs": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules","dist"],
-    "allowJs": true,
     "tsc-alias": {
       "resolveFullPaths": true
     },

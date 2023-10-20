@@ -4,8 +4,6 @@ package-lock.json
 
 .DS_Store
 
-test/*
-
 dist/*
 .env
 .env.yaml
