@@ -7,8 +7,8 @@
       "strict": true,
       "outDir": "dist",
       "paths": {
-        "@utils/*": ["./utils/*"],
-        "@handlers/*": ["./handlers/*"],
+        "@utils/*": ["utils/*"],
+        "@handlers/*": ["handlers/*"],
         "@MessageTemplate": ["./utils/line/message/template"]
 
       },
