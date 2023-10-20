@@ -3,16 +3,15 @@ name: Auto Unit Test
 on: [push]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
-          cache: 'yarn'
-      - run: yarn --frozen-lockfile
-      - run: yarn test
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+                  cache: "yarn"
+            - run: yarn install
+            - run: yarn test
