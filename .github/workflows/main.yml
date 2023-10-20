@@ -14,4 +14,6 @@ jobs:
                   node-version: "18"
                   cache: "yarn"
             - run: yarn install
+            - name: List files
+              run: ls -R src/utils/line/message  # 修改路徑以匹配你的項目結構
             - run: yarn test
