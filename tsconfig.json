@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
       "target": "es2018",
-      "baseUrl": ".",
+      "baseUrl": "src/",
       "module": "commonjs",
       "esModuleInterop": true,
       "strict": true,
       "outDir": "dist",
       "paths": {
-        "@utils/*": ["./src/utils/*"],
-        "@handlers/*": ["./src/handlers/*"]
+        "@utils/*": ["./utils/*"],
+        "@handlers/*": ["./handlers/*"]
 
       },
       "typeRoots": ["./types", "./node_modules/@types"],
