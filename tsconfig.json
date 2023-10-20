@@ -20,5 +20,9 @@
     "allowJs": true,
     "tsc-alias": {
       "resolveFullPaths": true
-    }
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+  ]
   }

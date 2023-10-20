@@ -1,4 +1,4 @@
-import { createFlexMessage } from "../message";
+import { createFlexMessage } from "./template";
 import { FlexBubble } from "@line/bot-sdk";
 import { capitalize } from "@utils/capitalize";
 

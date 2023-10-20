@@ -1,4 +1,4 @@
-import { createFlexMessage } from "../message/index";
+import { createFlexMessage } from "./template";
 import { FlexMessage } from "@line/bot-sdk";
 
 export const ServiceMessage: FlexMessage = createFlexMessage("找服務", {
