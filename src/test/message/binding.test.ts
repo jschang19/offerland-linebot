@@ -7,7 +7,6 @@ import { BindingMessage } from "../../utils/line/message/template";
 
 describe("generateBindingToken", () => {
 	test("should return a token with line id", async () => {
-		const lineId = "123456";
 		const token = await generateBindingToken();
 		console.log(token);
 		const decoded = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET), {
