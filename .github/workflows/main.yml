@@ -1,4 +1,4 @@
-name: Auto Unit Test
+name: Node.js CI
 
 on: [push]
 
@@ -13,5 +13,7 @@ jobs:
               with:
                   node-version: "18"
                   cache: "yarn"
-            - run: yarn install
-            - run: yarn test
+            - name: Run yarn install
+              run: yarn install
+            - name: Run unit test
+              run: yarn test
