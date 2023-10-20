@@ -3,6 +3,9 @@ module.exports = {
 	preset: "ts-jest",
 	testEnvironment: "node",
 	testMatch: ["**/src/test/**/*.test.ts"],
+	moduleNameMapper: {
+		"^(\\.\\/.+)\\.js$": "$1",
+	},
 };
 
 process.env = Object.assign(process.env, {
