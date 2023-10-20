@@ -1,6 +1,6 @@
 // jest test /message.ts
 
-import { BindingMessage } from "../../utils/line/message";
+import { BindingMessage } from "../../utils/line/message/index";
 import { FlexMessage } from "@line/bot-sdk";
 import { generateBindingToken } from "../../utils/user/generateToken";
 import { jwtVerify } from "jose";
