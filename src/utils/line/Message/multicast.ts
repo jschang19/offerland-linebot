@@ -148,9 +148,8 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 								`${process.env.WEBSITE_URL}/profile/${subscribtion!.user.name}?tab=錄取結果`
 							),
 						},
-						color: process.env.MAIN_COLOR,
 						height: "sm",
-						style: "primary",
+						style: "secondary",
 					},
 				],
 			},
@@ -213,9 +212,8 @@ export const generateExtensiveBubbles = (groupField: ExtensiveField[]) => {
 								`${process.env.WEBSITE_URL}/results?type=field&country=${field.country_name}&university=&major=&field=${field.field.name}`
 							),
 						},
-						color: process.env.MAIN_COLOR,
 						height: "sm",
-						style: "primary",
+						style: "secondary",
 					},
 				],
 			},
