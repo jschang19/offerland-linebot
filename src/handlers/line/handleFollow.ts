@@ -1,5 +1,5 @@
 import { Client, FollowEvent, Profile } from "@line/bot-sdk";
-import { TextMessageWrapper } from "@utils/line/message";
+import { TextMessageWrapper } from "@utils/line/message/template";
 import { generateBindingToken } from "@utils/user/generateToken";
 import { addLINEUser } from "@utils/user/addLineUser";
 

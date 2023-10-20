@@ -1,4 +1,4 @@
-import { TextMessageWrapper, BindingMessage } from "@utils/line/message";
+import { TextMessageWrapper, BindingMessage } from "@utils/line/message/template";
 import { MessageEvent, TextEventMessage, User } from "@line/bot-sdk";
 import getBindingToken from "@utils/user/getLineBindToken";
 import unbindUser from "@utils/user/unBindId";

@@ -9,7 +9,7 @@
       "paths": {
         "@utils/*": ["./utils/*"],
         "@handlers/*": ["./handlers/*"],
-        "@MessageTemplate": ["./utils/line/message"]
+        "@MessageTemplate": ["./utils/line/message/template"]
 
       },
       "typeRoots": ["./types", "./node_modules/@types"],

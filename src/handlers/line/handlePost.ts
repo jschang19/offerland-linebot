@@ -1,4 +1,4 @@
-import { TextMessageWrapper } from "@utils/line/message";
+import { TextMessageWrapper } from "@utils/line/message/template";
 import { PostbackEvent } from "@line/bot-sdk";
 const handlePostback = async (event: PostbackEvent) => {
 	try {
