@@ -9,6 +9,6 @@ gcloud functions deploy offerland-line-oa \
 --entry-point=main \
 --trigger-http \
 --allow-unauthenticated \
---env-vars-file=.env.yaml
+--no-user-output-enabled
 
 echo "Deployed to gcloud!"
