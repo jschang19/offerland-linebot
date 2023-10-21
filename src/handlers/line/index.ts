@@ -6,6 +6,8 @@ import { Request, Response } from "@google-cloud/functions-framework";
 const handleEvent = async (line: Client, event: WebhookEvent) => {
 	if (event.type === "message" && event.message.type === "text") {
 		const replyMessage = await handleText(event);
+
+		if (!replyMessage) return Promise.resolve(null);
 		return line.replyMessage(event.replyToken, replyMessage);
 	} else if (event.type === "postback" && event.postback.data) {
 		// create a echoing text message for postback event

@@ -40,7 +40,7 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 				return ServiceMessage;
 			default:
 				// 不回覆任何訊息
-				return;
+				return null;
 		}
 	} catch (error: any) {
 		console.error("Text Handler Error:", error.message); // Log the error message
