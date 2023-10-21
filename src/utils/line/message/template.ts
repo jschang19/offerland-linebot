@@ -35,8 +35,8 @@ export function wrapAsBubbleMessage(altText: string, contents: FlexBubble): Flex
 	};
 }
 
-export function BindingMessage(bindingId: string): FlexMessage {
-	if (!bindingId) throw Error("Binding Id is required");
+export function BindingMessage(bindingToken: string): FlexMessage {
+	if (!bindingToken) throw Error("Binding Id is required");
 
 	const bindingMessage: FlexMessage = {
 		type: "flex",
@@ -95,7 +95,7 @@ export function BindingMessage(bindingId: string): FlexMessage {
 						action: {
 							type: "uri",
 							label: "綁定",
-							uri: `${process.env.WEBSITE_URL}/auth/line/?token=${bindingId}&openExternalBrowser=1`,
+							uri: `${process.env.WEBSITE_URL}/auth/line/?token=${bindingToken}&openExternalBrowser=1`,
 						},
 						color: process.env.MAIN_COLOR,
 						height: "md",
