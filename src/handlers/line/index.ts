@@ -1,6 +1,7 @@
 import handleText from "./handleText";
 import handleFollow from "./handleFollow";
-import { Client, WebhookEvent, TextMessage, Profile } from "@line/bot-sdk";
+import { Client, WebhookEvent, TextMessage, validateSignature } from "@line/bot-sdk";
+import { Request, Response } from "@google-cloud/functions-framework";
 
 const handleEvent = async (line: Client, event: WebhookEvent) => {
 	if (event.type === "message" && event.message.type === "text") {
@@ -28,4 +29,16 @@ const handleEvent = async (line: Client, event: WebhookEvent) => {
 	}
 };
 
-export default handleEvent;
+const handleLineRequest = async (line: Client, req: Request, res: Response): Promise<void> => {
+	try {
+		const requestBody = req.body;
+		const events: WebhookEvent[] = requestBody.events;
+		const results = await Promise.all(events.map((event) => handleEvent(line, event)));
+		res.status(200).send(results);
+	} catch (err: any) {
+		console.error("line handler error: ", err);
+		res.status(err.status || 500).send(err.message);
+	}
+};
+
+export default handleLineRequest;
