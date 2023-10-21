@@ -21,7 +21,6 @@ jobs:
       - name: 執行測試
         run: yarn test     
   deploy:
-    if: github.ref == 'refs/heads/main'
     needs: test
     permissions:
       contents: 'read'
