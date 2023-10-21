@@ -27,7 +27,8 @@
 
 node_modules
 #!include:.gitignore
-src/test
+src/test/**
+dist/**
 
 ```
 
