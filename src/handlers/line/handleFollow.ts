@@ -1,7 +1,7 @@
 import { Client, FollowEvent, Profile } from "@line/bot-sdk";
 import { TextMessageWrapper } from "@utils/line/message/template";
 import { generateBindingToken } from "@utils/user/generateToken";
-import { addLINEUser } from "@utils/user/addLineUser";
+import { registerLineId } from "@utils/user/addLineUser";
 
 const handleFollow = async (line: Client, event: FollowEvent) => {
 	try {
@@ -10,7 +10,7 @@ const handleFollow = async (line: Client, event: FollowEvent) => {
 
 		// Add line ID to Supabase
 		try {
-			await addLINEUser(lineUserId, bindingToken);
+			await registerLineId(lineUserId, bindingToken);
 		} catch (error) {
 			console.error("Follow handler can't add line id to supabase\n\nerr:", error);
 		}
@@ -19,8 +19,9 @@ const handleFollow = async (line: Client, event: FollowEvent) => {
 		const profile = await line.getProfile(lineUserId);
 		return createFollowReplyMessage(profile);
 	} catch (error) {
-		console.error("An unexpected error occurred:", error);
-		return TextMessageWrapper("An unexpected error occurred. Please try again later.");
+		console.error("Follow Event Handler Error:", error);
+		console.log("user id: " + event.source.userId);
+		return TextMessageWrapper("歡迎加入 OfferLand 官方帳號好友！");
 	}
 };
 

@@ -1,24 +1,22 @@
-import { TextMessageWrapper, BindingMessage } from "@utils/line/message/template";
 import { MessageEvent, TextEventMessage, User } from "@line/bot-sdk";
-import getBindingToken from "@utils/user/getLineBindToken";
-import unbindUser from "@utils/user/unBindId";
+import { TextMessageWrapper, BindingMessage } from "@utils/line/message/template";
 import { ServiceMessage } from "@utils/line/message/service";
 import { generateBindingToken } from "@utils/user/generateToken";
-import { addLINEUser } from "@utils/user/addLineUser";
-import { checkBindingStatus } from "@utils/user/checkBinding";
+import { registerLineId } from "@utils/user/addLineUser";
+import { checkBindingStatus, unbindUser, getBindingToken } from "@utils/user/binding";
 
 const handleText = async (event: MessageEvent): Promise<any> => {
 	try {
 		const userMessage = (event.message as TextEventMessage).text;
 		const userId = (event.source as User).userId;
+		const hasBinded = await checkBindingStatus(userId);
 
 		switch (userMessage) {
 			case "hi":
 				return TextMessageWrapper("hi there");
 			case "綁定":
 				try {
-					const isBinded = await checkBindingStatus(userId);
-					if (isBinded) {
+					if (hasBinded) {
 						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
 					}
 					const { token } = await getBindingToken(userId);
@@ -27,8 +25,7 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 					return await handleGetTokenError(userId, error);
 				}
 			case "解除綁定":
-				const wasBinded = await checkBindingStatus(userId);
-				if (!wasBinded) {
+				if (!hasBinded) {
 					return TextMessageWrapper("你目前沒有綁定任何帳號，無須解除綁定");
 				}
 				const { error: unbindError } = await unbindUser(userId);
@@ -54,7 +51,7 @@ const handleGetTokenError = async (userId: string, error: any) => {
 	console.error("userId: ", userId);
 	console.log("the user is added to the database, but you should check if other users have the same problem");
 	const newToken = await generateBindingToken();
-	await addLINEUser(userId, newToken);
+	await registerLineId(userId, newToken);
 	return BindingMessage(newToken);
 };
 export default handleText;
