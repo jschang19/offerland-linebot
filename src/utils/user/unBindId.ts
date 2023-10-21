@@ -1,7 +1,7 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { generateBindingToken } from "./generateToken";
 
-async function unbindUser(userLineId: string): Promise<{
+export async function unbindUser(userLineId: string): Promise<{
 	error: PostgrestError | null;
 }> {
 	const newToken = await generateBindingToken();
@@ -18,5 +18,3 @@ async function unbindUser(userLineId: string): Promise<{
 		error: error && error,
 	};
 }
-
-export default unbindUser;
