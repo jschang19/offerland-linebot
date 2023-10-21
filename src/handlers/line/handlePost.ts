@@ -1,4 +1,4 @@
-import { TextMessageWrapper, BindingMessage } from "@utils/line/message/template";
+import { TextMessageWrapper, BindingMessage, subscriptionMessage } from "@utils/line/message/template";
 import { User, PostbackEvent } from "@line/bot-sdk";
 import { generateBindingToken } from "@utils/user/generateToken";
 import { registerLineId } from "@utils/user/addLineUser";
@@ -35,6 +35,8 @@ const handlePostback = async (event: PostbackEvent) => {
 				return TextMessageWrapper(
 					"解除綁定成功，你不會再收到任何 OfferLand 網站的通知，如果要重新綁定請點選選單任一按鈕"
 				);
+			case "subscription":
+				return subscriptionMessage();
 			default:
 				// 不回覆任何訊息
 				return;
