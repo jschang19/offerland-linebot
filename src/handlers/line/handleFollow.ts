@@ -1,19 +1,9 @@
 import { Client, FollowEvent, Profile } from "@line/bot-sdk";
 import { TextMessageWrapper } from "@utils/line/message/template";
-import { generateBindingToken } from "@utils/user/generateToken";
-import { registerLineId } from "@utils/user/addLineUser";
 
 const handleFollow = async (line: Client, event: FollowEvent) => {
 	try {
 		const lineUserId = event.source.userId!;
-		const bindingToken = await generateBindingToken();
-
-		// Add line ID to Supabase
-		try {
-			await registerLineId(lineUserId, bindingToken);
-		} catch (error) {
-			console.error("Follow handler can't add line id to supabase\n\nerr:", error);
-		}
 
 		// Retrieve the profile of the user
 		const profile = await line.getProfile(lineUserId);

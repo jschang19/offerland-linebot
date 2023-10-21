@@ -19,8 +19,9 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 					if (hasBinded) {
 						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
 					}
-					const { token } = await getBindingToken(userId);
-					return BindingMessage(token!);
+					const token = await generateBindingToken();
+					await registerLineId(userId, token);
+					return BindingMessage(token);
 				} catch (error) {
 					return await handleGetTokenError(userId, error);
 				}
@@ -52,8 +53,7 @@ const handleGetTokenError = async (userId: string, error: any) => {
 	console.error("Get binding token error: ", error);
 	console.error("userId: ", userId);
 	console.log("the user is added to the database, but you should check if other users have the same problem");
-	const newToken = await generateBindingToken();
-	await registerLineId(userId, newToken);
-	return BindingMessage(newToken);
+
+	return TextMessageWrapper("綁定帳號過程出了些問題，請稍候再試一次");
 };
 export default handleText;
