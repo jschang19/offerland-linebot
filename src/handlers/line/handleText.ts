@@ -1,5 +1,5 @@
 import { MessageEvent, TextEventMessage, User } from "@line/bot-sdk";
-import { TextMessageWrapper, BindingMessage } from "@utils/line/message/template";
+import { TextMessageWrapper, BindingMessage, subscriptionMessage } from "@utils/line/message/template";
 import { ServiceMessage } from "@utils/line/message/service";
 import { generateBindingToken } from "@utils/user/generateToken";
 import { registerLineId } from "@utils/user/addLineUser";
@@ -14,7 +14,7 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 		switch (userMessage) {
 			case "hi":
 				return TextMessageWrapper("hi there");
-			case "綁定":
+			case "綁定帳號":
 				try {
 					if (hasBinded) {
 						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
@@ -34,6 +34,8 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 					return TextMessageWrapper("解除綁定失敗，請稍候再試一次");
 				}
 				return TextMessageWrapper("解除綁定成功，你不會再收到任何 OfferLand 網站的通知");
+			case "訂閱通知":
+				return subscriptionMessage();
 			case "找服務":
 				return ServiceMessage;
 			default:
