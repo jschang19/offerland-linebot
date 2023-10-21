@@ -95,7 +95,7 @@ export function BindingMessage(bindingToken: string): FlexMessage {
 						action: {
 							type: "uri",
 							label: "綁定",
-							uri: `${process.env.WEBSITE_URL}/auth/line/?token=${bindingToken}&openExternalBrowser=1`,
+							uri: `${process.env.WEBSITE_URL}/line/auth/?token=${bindingToken}&openExternalBrowser=1`,
 						},
 						color: process.env.MAIN_COLOR,
 						height: "md",
