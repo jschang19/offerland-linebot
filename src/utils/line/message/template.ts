@@ -2,7 +2,6 @@ import { TextMessage, FlexMessage, FlexContainer, FlexBubble } from "@line/bot-s
 
 export function TextMessageWrapper(text: string): TextMessage {
 	if (!text) throw new Error("Text Message is required");
-	// return TextMessage for line bot in typescript
 	return {
 		type: "text",
 		text,
@@ -96,7 +95,7 @@ export function BindingMessage(bindingId: string): FlexMessage {
 						action: {
 							type: "uri",
 							label: "綁定",
-							uri: `${process.env.WEBSITE_URL}/auth/line/?token=${bindingId}`,
+							uri: `${process.env.WEBSITE_URL}/auth/line/?token=${bindingId}&openExternalBrowser=1`,
 						},
 						color: process.env.MAIN_COLOR,
 						height: "md",
