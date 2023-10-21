@@ -34,14 +34,18 @@ async function bindUserdByToken(userId: string, token: string) {
 }
 
 export async function checkBindingStatus(line_id: string) {
-	const { data, error } = await global.supabase.from("user_line").select("*").eq("line_id", line_id).single();
+	const { data, error } = await global.supabase
+		.from("user_line")
+		.select("*")
+		.eq("line_id", line_id)
+		.not("user_id", "is", null);
 
 	if (error) {
 		console.error("checkBindingStatus error");
 		throw error;
 	}
 
-	if (data.user_id) {
+	if (data && data.length > 0) {
 		return true;
 	}
 	return false;
