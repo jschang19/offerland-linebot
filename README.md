@@ -7,13 +7,13 @@ This is a LINE Bot project that aiming to reach users of OfferLand. It's an alte
 Clone the project
 
 ```bash
-  git clone https://github.com/jschang19/offerland-linebot.git
+  git clone https://github.com/offerland-cc/line-oa
 ```
 
 Go to the project directory
 
 ```bash
-  cd offerland-linebot
+  cd line-oa
 ```
 
 Install dependencies
