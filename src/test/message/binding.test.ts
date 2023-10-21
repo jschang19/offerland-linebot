@@ -80,7 +80,7 @@ describe("BindingMessage", () => {
 							action: {
 								type: "uri",
 								label: "綁定",
-								uri: `${process.env.WEBSITE_URL}/auth/line/?token=123456`,
+								uri: `${process.env.WEBSITE_URL}/auth/line/?token=123456&openExternalBrowser=1`,
 							},
 							color: process.env.MAIN_COLOR,
 							height: "md",
@@ -153,7 +153,7 @@ describe("BindingMessage", () => {
 							action: {
 								type: "uri",
 								label: "綁定",
-								uri: `${process.env.WEBSITE_URL}/auth/line/?token=${testId}`,
+								uri: `${process.env.WEBSITE_URL}/auth/line/?token=${testId}&openExternalBrowser=1`,
 							},
 							color: "#1919E8",
 							height: "md",
