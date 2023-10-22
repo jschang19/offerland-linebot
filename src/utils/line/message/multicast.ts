@@ -149,7 +149,7 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 							uri: encodeURI(
 								`${process.env.WEBSITE_URL}/profile/${
 									subscribtion!.user.name
-								}?tab=錄取結果&openExternalBrowser=1`
+								}?tab=錄取結果&utm_source=line_oa&utm_medium=multicast&openExternalBrowser=1`
 							),
 						},
 						height: "sm",
@@ -216,7 +216,7 @@ export const generateExtensiveBubbles = (groupField: ExtensiveField[]) => {
 							type: "uri",
 							label: "查看新回報",
 							uri: encodeURI(
-								`${process.env.WEBSITE_URL}/results?type=field&country=${field.country_name}&university=&major=&field=${field.field.name}&openExternalBrowser=1`
+								`${process.env.WEBSITE_URL}/results?type=field&country=${field.country_name}&university=&major=&field=${field.field.name}&utm_source=line_oa&utm_medium=multicast&openExternalBrowser=1`
 							),
 						},
 						height: "sm",
