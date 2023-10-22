@@ -1,6 +1,7 @@
 import { createFlexMessage } from "./template";
 import { FlexBubble } from "@line/bot-sdk";
 import { capitalize } from "@utils/capitalize";
+import "dotenv/config";
 
 export const generateSubscribtionCarousel = (carousel: FlexBubble[]) => {
 	return createFlexMessage("訂閱內容", {
@@ -222,4 +223,59 @@ export const generateExtensiveBubbles = (groupField: ExtensiveField[]) => {
 		return bubble;
 	});
 	return bubbles;
+};
+
+const EditSubscribtionMessage: FlexBubble = {
+	type: "bubble",
+	header: {
+		type: "box",
+		layout: "horizontal",
+		backgroundColor: process.env.MAIN_COLOR,
+		contents: [
+			{
+				type: "text",
+				text: "訂閱內容",
+				weight: "bold",
+				size: "sm",
+				color: "#FFFFFFFF",
+			},
+		],
+	},
+	body: {
+		type: "box",
+		layout: "horizontal",
+		spacing: "md",
+		contents: [
+			{
+				type: "box",
+				layout: "vertical",
+				spacing: "lg",
+				contents: [
+					{
+						type: "text",
+						text: "想取消或更新訂閱的科系嗎？點選下方按鈕即可變更您的訂閱清單",
+						weight: "regular",
+						gravity: "center",
+						wrap: true,
+					},
+				],
+			},
+		],
+	},
+	footer: {
+		type: "box",
+		layout: "horizontal",
+		contents: [
+			{
+				type: "button",
+				action: {
+					type: "uri",
+					label: "編輯錄取結果",
+					uri: `${process.env.WEBSITE_URL}/subscription?openExternalBrowser=1`,
+				},
+				height: "sm",
+				style: "secondary",
+			},
+		],
+	},
 };
