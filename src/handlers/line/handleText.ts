@@ -3,7 +3,7 @@ import { TextMessageWrapper, BindingMessage, subscriptionMessage } from "@utils/
 import { ServiceMessage } from "@utils/line/message/service";
 import { generateBindingToken } from "@utils/user/generateToken";
 import { registerLineId } from "@utils/user/addLineUser";
-import { checkBindingStatus, unbindUser, getBindingToken } from "@utils/user/binding";
+import { checkBindingStatus, unbindUser } from "@utils/user/binding";
 
 const handleText = async (event: MessageEvent): Promise<any> => {
 	try {

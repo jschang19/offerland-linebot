@@ -94,7 +94,7 @@ export const generateMockResults = (decision: number, admitted: number, reject: 
 export const generateFieldResults = (
 	fields: string[],
 	countries: string[],
-	testSubscribers: Subscriber[][],
+	testSubscribers: Subscriber[][]
 ): Result[] => {
 	const results: Result[] = [];
 	let id = 0;

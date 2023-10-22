@@ -1,6 +1,6 @@
 import handleText from "./handleText";
 import handleFollow from "./handleFollow";
-import { Client, WebhookEvent, TextMessage, validateSignature } from "@line/bot-sdk";
+import { Client, WebhookEvent, TextMessage } from "@line/bot-sdk";
 import { Request, Response } from "@google-cloud/functions-framework";
 
 const handleEvent = async (line: Client, event: WebhookEvent) => {

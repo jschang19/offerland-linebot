@@ -96,7 +96,7 @@ export const sortResultId = (multicastGroups: MulticastGroup[], allResults: Resu
 			...group,
 			resultIds: [...sortedTypeResults.decision, ...sortedTypeResults.admit, ...sortedTypeResults.reject].slice(
 				0,
-				maxResult,
+				maxResult
 			),
 		};
 	});
@@ -105,7 +105,7 @@ export const sortResultId = (multicastGroups: MulticastGroup[], allResults: Resu
 // 將落點資料根據國家 & 學群進行分類
 const addOrUpdateField = (fieldArray: ExtensiveField[], result: Result) => {
 	const field = fieldArray.find(
-		(field) => field.field.id === result.field!.id && field.country_id === result.country_id,
+		(field) => field.field.id === result.field!.id && field.country_id === result.country_id
 	);
 	if (!field) {
 		fieldArray.push({
@@ -124,7 +124,7 @@ const addOrUpdateField = (fieldArray: ExtensiveField[], result: Result) => {
 
 const groupFieldResults = (
 	resultGroup: MulticastGroup[],
-	allResults: Result[],
+	allResults: Result[]
 ): {
 	fields: ExtensiveField[];
 	subscribers: string[];

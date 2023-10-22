@@ -279,7 +279,7 @@ describe("test creating extensive subscription group", () => {
 						user_id: "U2",
 					},
 				],
-			],
+			]
 		);
 
 		const actual = createExtensiveGroup(results);
