@@ -1,5 +1,6 @@
 import { createPreciseGroup, sortResultId, createExtensiveGroup } from ".././../utils/result/groupResult";
 import { mockResults, generateMockResults, generateFieldResults } from "../../utils/test/mockResults";
+import { Result, Subscriber } from "@/types/result.types";
 
 describe("test filiterResultByType", () => {
 	test("should return a filtered group", () => {

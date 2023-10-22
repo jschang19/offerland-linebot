@@ -1,8 +1,9 @@
 import { Client, FlexBubble, LINE_REQUEST_ID_HTTP_HEADER_NAME } from "@line/bot-sdk";
-import { createPreciseGroup, createResultsMap } from "@utils/result/groupResult";
-import { assignIdToResults } from "@utils/result/assignId";
+import { createPreciseGroup, createResultsMap } from "@/utils/result/groupResult";
+import { assignIdToResults } from "@/utils/result/assignId";
 import { generateSubscribtionCarousel, generatePreciseBubbles } from "@utils/line/message/multicast";
-import updateMultiQuota from "@utils/user/updateQuota";
+import { Result } from "@/types/result.types";
+import updateMultiQuota from "@/utils/user/updateQuota";
 
 const preciseMulticast = async (line: Client, results: Result[]) => {
 	try {
@@ -31,7 +32,7 @@ const preciseMulticast = async (line: Client, results: Result[]) => {
 		console.log("Precise multicast task finished.");
 		console.log("Finished at: " + new Date().toLocaleString("zh-TW", { timeZone: "Asia/Taipei" }));
 		console.log("- - -");
-	} catch (err: any) {
+	} catch (err: unknown) {
 		console.error("preciseMulticast error: " + err);
 	}
 	return;

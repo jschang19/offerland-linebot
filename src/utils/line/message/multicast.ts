@@ -2,6 +2,7 @@ import { createFlexMessage } from "./template";
 import { FlexBubble } from "@line/bot-sdk";
 import { capitalize } from "@utils/capitalize";
 import eBookCampaignBubble from "./ads/ebook";
+import { Result, ExtensiveField } from "@/types/result.types";
 import "dotenv/config";
 
 export const generateSubscribtionCarousel = (carousel: FlexBubble[]) => {

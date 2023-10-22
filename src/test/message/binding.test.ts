@@ -173,8 +173,8 @@ describe("BindingMessage", () => {
 		// "Binding Id is required"
 		try {
 			BindingMessage(testId);
-		} catch (error: any) {
-			expect(error.message).toEqual("Binding Id is required");
+		} catch (error: unknown) {
+			expect((error as Error).message).toEqual("Binding Id is required");
 		}
 	});
 });

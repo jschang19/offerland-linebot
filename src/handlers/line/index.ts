@@ -37,9 +37,14 @@ const handleLineRequest = async (line: Client, req: Request, res: Response): Pro
 		const events: WebhookEvent[] = requestBody.events;
 		const results = await Promise.all(events.map((event) => handleEvent(line, event)));
 		res.status(200).send(results);
-	} catch (err: any) {
-		console.error("line handler error: ", err);
-		res.status(err.status || 500).send(err.message);
+	} catch (err: unknown) {
+		if (err instanceof Error) {
+			console.error(err.message);
+			res.status(500).send(err.message);
+		} else {
+			console.error(err);
+			res.status(500).send("Internal Server Error");
+		}
 	}
 };
 

@@ -1,6 +1,7 @@
 import { Client } from "@line/bot-sdk";
 import preciseMulticast from "./precise";
 import extensiveMulticast from "./extensive";
+import { Result } from "@/types/result.types";
 
 const handleMulticast = async (line: Client, param: string[], results: Result[]) => {
 	console.log("Starting LINE multicast task");

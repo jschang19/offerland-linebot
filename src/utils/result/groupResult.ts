@@ -1,3 +1,5 @@
+import { Result, TypeResults, ExtensiveField, MulticastGroup } from "@/types/result.types";
+
 const maxResult = 8;
 const maxHardLimit = 11;
 

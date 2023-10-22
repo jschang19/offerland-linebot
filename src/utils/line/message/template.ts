@@ -109,7 +109,7 @@ export function BindingMessage(bindingToken: string): FlexMessage {
 	return bindingMessage;
 }
 
-export function servicesListMessage() {
+export function servicesListMessage(): FlexMessage {
 	return {
 		type: "flex",
 		altText: "找服務",
@@ -182,59 +182,57 @@ export function servicesListMessage() {
 	};
 }
 
-export function subscriptionMessage() {
-	return {
-		type: "bubble",
-		header: {
-			type: "box",
-			layout: "horizontal",
-			backgroundColor: "#2943D1",
-			contents: [
-				{
-					type: "text",
-					text: "訂閱科系",
-					weight: "bold",
-					size: "sm",
-					color: "#FFFFFFFF",
-					contents: [],
-				},
-			],
-		},
-		body: {
-			type: "box",
-			layout: "horizontal",
-			spacing: "md",
-			contents: [
-				{
-					type: "box",
-					layout: "vertical",
-					spacing: "lg",
-					contents: [
-						{
-							type: "text",
-							text: "想第一手知道目標科系的新錄取通知嗎？到 OfferLand 網站訂閱科系或學群，即可在 LINE 收到通知👇",
-							wrap: true,
-							contents: [],
-						},
-					],
-				},
-			],
-		},
-		footer: {
-			type: "box",
-			layout: "horizontal",
-			contents: [
-				{
-					type: "button",
-					action: {
-						type: "uri",
-						label: "訂閱科系",
-						uri: `${process.env.WEBSITE_URL}/subscription?openExternalBrowser=1`,
-					},
-					height: "sm",
-					style: "secondary",
-				},
-			],
-		},
-	};
-}
+// export function subscriptionMessage() {
+// 	return {
+// 		type: "bubble",
+// 		header: {
+// 			type: "box",
+// 			layout: "horizontal",
+// 			backgroundColor: "#2943D1",
+// 			contents: [
+// 				{
+// 					type: "text",
+// 					text: "訂閱科系",
+// 					weight: "bold",
+// 					size: "sm",
+// 					color: "#FFFFFFFF",
+// 				},
+// 			],
+// 		},
+// 		body: {
+// 			type: "box",
+// 			layout: "horizontal",
+// 			spacing: "md",
+// 			contents: [
+// 				{
+// 					type: "box",
+// 					layout: "vertical",
+// 					spacing: "lg",
+// 					contents: [
+// 						{
+// 							type: "text",
+// 							text: "想第一手知道目標科系的新錄取通知嗎？到 OfferLand 網站訂閱科系或學群，即可在 LINE 收到通知👇",
+// 							wrap: true,
+// 						},
+// 					],
+// 				},
+// 			],
+// 		},
+// 		footer: {
+// 			type: "box",
+// 			layout: "horizontal",
+// 			contents: [
+// 				{
+// 					type: "button",
+// 					action: {
+// 						type: "uri",
+// 						label: "訂閱科系",
+// 						uri: `${process.env.WEBSITE_URL}/subscription?openExternalBrowser=1`,
+// 					},
+// 					height: "sm",
+// 					style: "secondary",
+// 				},
+// 			],
+// 		},
+// 	};
+// }

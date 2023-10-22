@@ -82,3 +82,21 @@ type ExtensiveGroup = {
 	fields: ExtensiveField[];
 	subscribers: string[];
 };
+
+export type {
+	Result,
+	User,
+	Major,
+	Degree,
+	University,
+	Scholarship,
+	Field,
+	SubscriberList,
+	Subscriber,
+	GroupList,
+	TypeResults,
+	ResultType,
+	MulticastGroup,
+	ExtensiveField,
+	ExtensiveGroup,
+};

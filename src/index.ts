@@ -40,9 +40,14 @@ const handleRequest = async (req: Request, res: Response): Promise<void> => {
 			default:
 				res.status(404).send("Not Found");
 		}
-	} catch (error: any) {
-		console.error("main function error: ", error);
-		res.status(error.status || 500).send(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.error(error.message);
+			res.status(500).send(error.message);
+		} else {
+			console.error(error);
+			res.status(500).send("Internal Server Error");
+		}
 	}
 };
 

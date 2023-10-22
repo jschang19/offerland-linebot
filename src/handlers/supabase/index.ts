@@ -1,5 +1,6 @@
 import { Client } from "@line/bot-sdk";
 import handleMulticast from "./tasks/multicast";
+import { Result } from "@/types/result.types";
 
 const handleSupabase = async (
 	line: Client,
@@ -18,7 +19,7 @@ const handleSupabase = async (
 			default:
 				break;
 		}
-	} catch (err: any) {
+	} catch (err: unknown) {
 		console.error(err);
 		return "error";
 	}

@@ -1,3 +1,5 @@
+import { Result, Subscriber } from "@/types/result.types";
+
 export const mockResults = (subscribers: number[]) => {
 	if (subscribers.length === 0) {
 		return [];
