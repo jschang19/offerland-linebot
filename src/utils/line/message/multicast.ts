@@ -124,7 +124,7 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 									},
 									{
 										type: "text",
-										text: subscribtion!.user.graduated_university,
+										text: subscribtion?.user?.graduated_university || "未填寫",
 										size: "sm",
 										flex: 2,
 										wrap: true,
