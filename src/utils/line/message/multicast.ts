@@ -280,7 +280,7 @@ const EditSubscribtionMessage: FlexBubble = {
 				type: "button",
 				action: {
 					type: "uri",
-					label: "編輯訂閱",
+					label: "取消 / 編輯訂閱",
 					uri: `${process.env.WEBSITE_URL}/subscription?openExternalBrowser=1`,
 				},
 				height: "sm",
