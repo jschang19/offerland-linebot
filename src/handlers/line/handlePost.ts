@@ -25,7 +25,7 @@ const handlePostback = async (event: PostbackEvent) => {
 				}
 			case "unibind_account":
 				if (!hasBinded) {
-					return TextMessageWrapper("你目前沒有綁定任何帳號，無須解除綁定");
+					return TextMessageWrapper("您目前沒有綁定任何帳號，無須解除綁定");
 				}
 				const { error: unbindError } = await unbindUser(userId);
 				if (unbindError) {
@@ -33,7 +33,7 @@ const handlePostback = async (event: PostbackEvent) => {
 					return TextMessageWrapper("解除綁定失敗，請稍候再試一次");
 				}
 				return TextMessageWrapper(
-					"解除綁定成功，你不會再收到任何 OfferLand 網站的通知，如果要重新綁定請點選選單任一按鈕"
+					"解除綁定成功，您不會再收到任何 OfferLand 網站的通知，如果要重新綁定請點選選單任一按鈕"
 				);
 			case "subscription":
 				return subscriptionMessage();

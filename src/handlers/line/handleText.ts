@@ -27,14 +27,14 @@ const handleText = async (event: MessageEvent): Promise<any> => {
 				}
 			case "解除綁定":
 				if (!hasBinded) {
-					return TextMessageWrapper("你目前沒有綁定任何帳號，無須解除綁定");
+					return TextMessageWrapper("您目前沒有綁定任何帳號，無須解除綁定");
 				}
 				const { error: unbindError } = await unbindUser(userId);
 				if (unbindError) {
 					console.error("error: ", unbindError);
 					return TextMessageWrapper("解除綁定失敗，請稍候再試一次");
 				}
-				return TextMessageWrapper("解除綁定成功，你不會再收到任何 OfferLand 網站的通知");
+				return TextMessageWrapper("解除綁定成功，您不會再收到任何 OfferLand 網站的通知");
 			case "訂閱通知":
 				return subscriptionMessage();
 			case "找服務":
