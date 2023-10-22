@@ -229,7 +229,7 @@ export const generateExtensiveBubbles = (groupField: ExtensiveField[]) => {
 		return bubble;
 	});
 
-	bubbles.push(eBookCampaignBubble);
+	// bubbles.push(eBookCampaignBubble);
 	bubbles.push(EditSubscribtionMessage);
 
 	return bubbles;
