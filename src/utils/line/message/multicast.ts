@@ -1,6 +1,7 @@
 import { createFlexMessage } from "./template";
 import { FlexBubble } from "@line/bot-sdk";
 import { capitalize } from "@utils/capitalize";
+import eBookCampaignBubble from "./ads/ebook";
 import "dotenv/config";
 
 export const generateSubscribtionCarousel = (carousel: FlexBubble[]) => {
@@ -157,6 +158,9 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 		};
 	});
 
+	bubbles.push(eBookCampaignBubble);
+	bubbles.push(EditSubscribtionMessage);
+
 	return bubbles;
 };
 
@@ -222,6 +226,10 @@ export const generateExtensiveBubbles = (groupField: ExtensiveField[]) => {
 
 		return bubble;
 	});
+
+	bubbles.push(eBookCampaignBubble);
+	bubbles.push(EditSubscribtionMessage);
+
 	return bubbles;
 };
 
