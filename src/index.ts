@@ -1,5 +1,5 @@
 import { http, Request, Response } from "@google-cloud/functions-framework";
-import { Client, validateSignature, WebhookEvent } from "@line/bot-sdk";
+import { Client, validateSignature } from "@line/bot-sdk";
 import handleLineRequest from "@handlers/line";
 import handleSupabase from "@handlers/supabase";
 import { supabase as supaClient } from "@utils/supabase";

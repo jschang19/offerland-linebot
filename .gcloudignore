@@ -30,6 +30,11 @@ node_modules
 src/test/**
 dist/**
 
+.eslintrc.js
+.prettierrc.json
+jest.config.js
+.github/**
+
 ```
 
 ```

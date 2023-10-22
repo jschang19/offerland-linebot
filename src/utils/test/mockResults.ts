@@ -4,7 +4,7 @@ export const mockResults = (subscribers: number[]) => {
 	if (subscribers.length === 0) {
 		return [];
 	}
-	const results: any[] = [];
+	const results: unknown[] = [];
 	subscribers.forEach((subscriber) => {
 		results.push({
 			id: subscriber.toString(),
