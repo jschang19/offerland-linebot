@@ -16,7 +16,9 @@ const handlePostback = async (event: PostbackEvent) => {
 			case "bind_account": {
 				try {
 					if (hasBinded) {
-						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
+						return TextMessageWrapper(
+							`LINE 帳號已經綁定了！\n\n請到 OfferLand 網頁訂閱科系：${process.env.WEBSITE_URL}/subscription?openExternalBrowser=1`
+						);
 					}
 					const { token } = await getBindingToken(userId);
 					return BindingMessage(token!);
