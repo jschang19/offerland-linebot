@@ -12,10 +12,11 @@ const handleSupabase = async (
 	try {
 		const task = param[2];
 		switch (task) {
-			case "multicast":
+			case "multicast": {
 				const { results } = body;
 				await handleMulticast(line, param, results);
 				return "success";
+			}
 			default:
 				break;
 		}

@@ -19,7 +19,7 @@ const handleRequest = async (req: Request, res: Response): Promise<void> => {
 		const param = req.originalUrl.split("/")[1];
 
 		switch (param) {
-			case "line":
+			case "line": {
 				const requestBody = req.body;
 				if (
 					!validateSignature(
@@ -33,10 +33,12 @@ const handleRequest = async (req: Request, res: Response): Promise<void> => {
 				}
 				await handleLineRequest(line, req, res);
 				break;
-			case "supabase":
+			}
+			case "supabase": {
 				const result = await handleSupabase(line, req.originalUrl.split("/"), req.body);
 				res.status(200).send(result);
 				break;
+			}
 			default:
 				res.status(404).send("Not Found");
 		}

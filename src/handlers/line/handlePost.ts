@@ -13,7 +13,7 @@ const handlePostback = async (event: PostbackEvent) => {
 		switch (userPostback) {
 			case "hi":
 				return TextMessageWrapper("hi there");
-			case "bind_account":
+			case "bind_account": {
 				try {
 					if (hasBinded) {
 						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
@@ -23,7 +23,8 @@ const handlePostback = async (event: PostbackEvent) => {
 				} catch (error) {
 					return await handleGetTokenError(userId, error);
 				}
-			case "unibind_account":
+			}
+			case "unibind_account": {
 				if (!hasBinded) {
 					return TextMessageWrapper("您目前沒有綁定任何帳號，無須解除綁定");
 				}
@@ -35,9 +36,10 @@ const handlePostback = async (event: PostbackEvent) => {
 				return TextMessageWrapper(
 					"解除綁定成功，您不會再收到任何 OfferLand 網站的通知，如果要重新綁定請點選選單任一按鈕"
 				);
+			}
 			default:
 				// 不回覆任何訊息
-				return;
+				return null;
 		}
 	} catch (error: unknown) {
 		return TextMessageWrapper(`mes:\n${error}`);

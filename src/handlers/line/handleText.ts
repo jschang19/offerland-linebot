@@ -14,7 +14,7 @@ const handleText = async (event: MessageEvent): Promise<Message | null> => {
 		switch (userMessage) {
 			case "hi":
 				return TextMessageWrapper("hi there");
-			case "綁定帳號":
+			case "綁定帳號": {
 				try {
 					if (hasBinded) {
 						return TextMessageWrapper(`目前 LINE 帳號已經綁定了！`);
@@ -25,7 +25,8 @@ const handleText = async (event: MessageEvent): Promise<Message | null> => {
 				} catch (error) {
 					return await handleGetTokenError(userId, error);
 				}
-			case "解除綁定":
+			}
+			case "解除綁定": {
 				if (!hasBinded) {
 					return TextMessageWrapper("您目前沒有綁定任何帳號，無須解除綁定");
 				}
@@ -35,6 +36,7 @@ const handleText = async (event: MessageEvent): Promise<Message | null> => {
 					return TextMessageWrapper("解除綁定失敗，請稍候再試一次");
 				}
 				return TextMessageWrapper("解除綁定成功，您不會再收到任何 OfferLand 網站的通知");
+			}
 			case "找服務":
 				return ServiceMessage;
 			default:
