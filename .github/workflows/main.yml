@@ -15,10 +15,11 @@ jobs:
         with:
             node-version: 20
             cache: "yarn"
-      - name: 安裝套件
-        run: yarn install
-      - name: 執行測試
-        run: yarn test     
+      - name: install, lint, test
+        run: |
+              yarn install
+              yarn lint
+              yarn test
   deploy:
     needs: test
     permissions:
@@ -27,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 部署到 Google Cloud Functions
+      - name: 設定 Node, yarn
         uses: actions/setup-node@v3
         with:
             node-version: 20
