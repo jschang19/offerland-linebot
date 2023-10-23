@@ -1,5 +1,5 @@
 import handleText from "./handleText";
-import { Client, WebhookEvent, TextMessage } from "@line/bot-sdk";
+import { Client, WebhookEvent } from "@line/bot-sdk";
 import { Request, Response } from "@google-cloud/functions-framework";
 
 const handleEvent = async (line: Client, event: WebhookEvent) => {
@@ -11,10 +11,12 @@ const handleEvent = async (line: Client, event: WebhookEvent) => {
 	} else if (event.type === "postback" && event.postback.data) {
 		// create a echoing text message for postback event
 		// just for temporary use
-		const echo: TextMessage = { type: "text", text: "wow a postback" };
 
-		// use reply API
-		return line.replyMessage(event.replyToken, echo);
+		// const reply = await handlePostback(event);
+		// if (!reply) return Promise.resolve(null);
+		// return line.replyMessage(event.replyToken, reply);
+
+		return Promise.resolve(null);
 	}
 	// follow event
 	else if (event.type === "follow") {
