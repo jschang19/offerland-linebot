@@ -1,5 +1,4 @@
 import handleText from "./handleText";
-import handleFollow from "./handleFollow";
 import { Client, WebhookEvent, TextMessage } from "@line/bot-sdk";
 import { Request, Response } from "@google-cloud/functions-framework";
 
@@ -19,12 +18,10 @@ const handleEvent = async (line: Client, event: WebhookEvent) => {
 	}
 	// follow event
 	else if (event.type === "follow") {
-		// // get user profile
-		// we would like to check if the user has binded his/her account
-		// if not, issue a token that point to the user's id to supabase
-		// TODO: write function to check if the user has binded his/her account
-		const reply = await handleFollow(line, event);
-		return line.replyMessage(event.replyToken, reply);
+		// Use the setting in manager console instead
+		// currently, we don't handle follow event on Cloud Function
+		//const reply = await handleFollow(line, event);
+		return Promise.resolve(null);
 	} else {
 		// ignore non-text-message event
 		return Promise.resolve(null);
