@@ -1,3 +1,4 @@
+import { supabase } from "@utils/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 
 export async function registerLineId(
@@ -7,7 +8,7 @@ export async function registerLineId(
 	error: PostgrestError | null;
 }> {
 	// upsert line id to supabase
-	const { error } = await global.supabase.rpc("register_line_id", {
+	const { error } = await supabase.rpc("register_line_id", {
 		gcf_line_id: lineUserId,
 		gcf_token: bindingToken,
 	});

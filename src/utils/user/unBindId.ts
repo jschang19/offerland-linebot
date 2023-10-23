@@ -1,4 +1,5 @@
 import { PostgrestError } from "@supabase/supabase-js";
+import { supabase } from "@utils/supabase";
 import { generateBindingToken } from "./generateToken";
 
 export async function unbindUser(userLineId: string): Promise<{
@@ -6,7 +7,7 @@ export async function unbindUser(userLineId: string): Promise<{
 }> {
 	const newToken = await generateBindingToken();
 
-	const { error } = await global.supabase
+	const { error } = await supabase
 		.from("user_line")
 		.update({
 			user_id: null,

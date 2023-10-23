@@ -2,7 +2,6 @@ import { http, Request, Response } from "@google-cloud/functions-framework";
 import { Client, validateSignature } from "@line/bot-sdk";
 import handleLineRequest from "@handlers/line";
 import handleSupabase from "@handlers/supabase";
-import { supabase as supaClient } from "@utils/supabase";
 
 const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN!;
 const LINE_CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET!;
@@ -11,8 +10,6 @@ const line = new Client({
 	channelAccessToken: LINE_CHANNEL_ACCESS_TOKEN,
 	channelSecret: LINE_CHANNEL_SECRET,
 });
-
-global.supabase = supaClient;
 
 const handleRequest = async (req: Request, res: Response): Promise<void> => {
 	try {

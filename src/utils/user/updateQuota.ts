@@ -1,5 +1,7 @@
+import { supabase } from "@utils/supabase";
+
 async function updateMultiQuota(users: string[]) {
-	const { error } = await global.supabase.rpc("update_line_quota", {
+	const { error } = await supabase.rpc("update_line_quota", {
 		line_ids: users,
 	});
 
