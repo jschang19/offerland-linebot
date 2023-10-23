@@ -21,8 +21,6 @@ module.exports = {
 		sourceType: "module",
 	},
 	plugins: ["@typescript-eslint"],
-	rules: {
-		"no-case-declarations": "off",
-	},
+	rules: {},
 	ignorePatterns: ["dist/", "src/test/", "node_modules/", "src/utils/test/"],
 };
