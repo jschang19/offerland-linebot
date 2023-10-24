@@ -4,6 +4,7 @@ import { FlexMessage } from "@line/bot-sdk";
 import { jwtVerify } from "jose";
 import { generateBindingToken } from "../../utils/user/generateToken";
 import { BindingMessage } from "../../utils/line/message/template";
+import { Colors } from "../../config/constants";
 
 describe("generateBindingToken", () => {
 	test("should return a token with line id", async () => {
@@ -82,7 +83,7 @@ describe("BindingMessage", () => {
 								label: "綁定",
 								uri: `${process.env.WEBSITE_URL}/line/auth/?token=123456&openExternalBrowser=1`,
 							},
-							color: process.env.MAIN_COLOR,
+							color: Colors.main,
 							height: "md",
 							style: "primary",
 						},
