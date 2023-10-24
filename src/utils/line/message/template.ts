@@ -1,3 +1,4 @@
+import { Colors } from "@/config/constants";
 import { TextMessage, FlexMessage, FlexContainer, FlexBubble } from "@line/bot-sdk";
 
 export function TextMessageWrapper(text: string): TextMessage {
@@ -97,7 +98,7 @@ export function BindingMessage(bindingToken: string): FlexMessage {
 							label: "綁定",
 							uri: `${process.env.WEBSITE_URL}/line/auth/?token=${bindingToken}&openExternalBrowser=1`,
 						},
-						color: process.env.MAIN_COLOR,
+						color: Colors.main,
 						height: "md",
 						style: "primary",
 					},
