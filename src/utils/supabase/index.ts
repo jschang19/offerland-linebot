@@ -1,7 +1,6 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "../../types/database.types";
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 interface SupabaseConfig {
 	url: string;
