@@ -1,4 +1,5 @@
 import { FlexBubble } from "@line/bot-sdk";
+import { Colors, UTM } from "@/config/constants";
 
 const eBookCampaignBubble: FlexBubble = {
 	type: "bubble",
@@ -14,7 +15,7 @@ const eBookCampaignBubble: FlexBubble = {
 				color: "#FFFFFF",
 			},
 		],
-		backgroundColor: process.env.MAIN_COLOR,
+		backgroundColor: Colors.main,
 	},
 	hero: {
 		type: "image",
@@ -25,7 +26,7 @@ const eBookCampaignBubble: FlexBubble = {
 		action: {
 			label: "查看電子書",
 			type: "uri",
-			uri: "https://jason-career.com/product-category/ebook/?openExternalBrowser=1",
+			uri: `https://jason-career.com/product-category/ebook?openExternalBrowser=1&utm_source=${UTM.source}&utm_medium=${UTM.medium.multicast}&utm_campaign=${UTM.campaign.ebook}`,
 		},
 	},
 	body: {
@@ -111,7 +112,7 @@ const eBookCampaignBubble: FlexBubble = {
 				action: {
 					type: "uri",
 					label: "點進來看看高 CP 值電子書 📖",
-					uri: "https://jason-career.com/product-category/ebook?openExternalBrowser=1&utm_source=line_oa&utm_medium=multicast",
+					uri: `https://jason-career.com/product-category/ebook?openExternalBrowser=1&utm_source=${UTM.source}&utm_medium=${UTM.medium.multicast}&utm_campaign=${UTM.campaign.ebook}`,
 				},
 			},
 		],

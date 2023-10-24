@@ -3,6 +3,7 @@ import { FlexBubble } from "@line/bot-sdk";
 import { capitalize } from "@utils/capitalize";
 import eBookCampaignBubble from "./ads/ebook";
 import { Result, ExtensiveField } from "@/types/result.types";
+import { Colors, utm } from "@/config/constants";
 import "dotenv/config";
 
 export const generateSubscribtionCarousel = (carousel: FlexBubble[]) => {
@@ -21,7 +22,7 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 			header: {
 				type: "box",
 				layout: "horizontal",
-				backgroundColor: process.env.MAIN_COLOR,
+				backgroundColor: Colors.main,
 				contents: [
 					{
 						type: "text",
@@ -103,10 +104,10 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 										text: capitalize(subscribtion!.type),
 										color:
 											subscribtion!.type === "decision"
-												? process.env.DECISION_COLOR
+												? Colors.decision
 												: subscribtion!.type === "admit"
-												? process.env.ADMIT_COLOR
-												: process.env.REJECT_COLOR,
+												? Colors.admit
+												: Colors.reject,
 										size: "sm",
 										flex: 2,
 										wrap: true,
@@ -150,7 +151,9 @@ export const generatePreciseBubbles = (resultIds: string[], allResults: Map<stri
 							uri: encodeURI(
 								`${process.env.WEBSITE_URL}/profile/${
 									subscribtion!.user.name
-								}?tab=錄取結果&utm_source=line_oa&utm_medium=multicast&openExternalBrowser=1`
+								}?tab=錄取結果&utm_source=${utm.source}&utm_medium=${
+									utm.medium.multicast
+								}&openExternalBrowser=1`
 							),
 						},
 						height: "sm",
@@ -217,7 +220,7 @@ export const generateExtensiveBubbles = (groupField: ExtensiveField[]) => {
 							type: "uri",
 							label: "查看新回報",
 							uri: encodeURI(
-								`${process.env.WEBSITE_URL}/results?type=field&country=${field.country_name}&university=&major=&field=${field.field.name}&utm_source=line_oa&utm_medium=multicast&openExternalBrowser=1`
+								`${process.env.WEBSITE_URL}/results?type=field&country=${field.country_name}&university=&major=&field=${field.field.name}&utm_source=${utm.source}&utm_medium=${utm.medium.multicast}t&openExternalBrowser=1`
 							),
 						},
 						height: "sm",
@@ -241,7 +244,7 @@ const EditSubscribtionMessage: FlexBubble = {
 	header: {
 		type: "box",
 		layout: "horizontal",
-		backgroundColor: process.env.MAIN_COLOR,
+		backgroundColor: Colors.main,
 		contents: [
 			{
 				type: "text",
