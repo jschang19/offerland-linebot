@@ -54,9 +54,13 @@ const handleText = async (event: MessageEvent): Promise<Message | null> => {
 };
 
 const handleGetTokenError = async (userId: string, error: unknown) => {
-	console.error("Get binding token error: ", error);
-	console.error("userId: ", userId);
-	console.log("the user is added to the database, but you should check if other users have the same problem");
+	console.log(
+		JSON.stringify({
+			severity: "WARNING",
+			// 在紀錄檔的分頁預設會顯示的文字
+			message: `綁定帳號出現錯誤\n\nLINE user id: ${userId}\n\nError: ${error}`,
+		})
+	);
 
 	return TextMessageWrapper("綁定帳號過程出了些問題，請稍候再試一次");
 };

@@ -22,9 +22,14 @@ const extensiveMulticast = async (line: Client, results: Result[]) => {
 			await updateMultiQuota(subscribers);
 		}
 
-		console.log("Extensive multicast task finished.");
-		console.log("Finished at: " + new Date().toLocaleString("zh-TW", { timeZone: "Asia/Taipei" }));
-		console.log("- - -");
+		console.log(
+			JSON.stringify({
+				severity: "DEFAULT",
+				message: `Multicast multicast finished at ${new Date().toLocaleString("zh-TW", {
+					timeZone: "Asia/Taipei",
+				})}`,
+			})
+		);
 	} catch (err: unknown) {
 		console.error("extensiveMulticast error: " + err);
 	}

@@ -4,11 +4,17 @@ import extensiveMulticast from "./extensive";
 import { Result } from "@/types/result.types";
 
 const handleMulticast = async (line: Client, param: string[], results: Result[]) => {
-	console.log("Starting LINE multicast task");
-	console.log("Started at: " + new Date().toLocaleString("zh-TW", { timeZone: "Asia/Taipei" }));
+	console.log(
+		JSON.stringify({
+			severity: "DEFAULT",
+			message: `Received Supabase request. Starting LINE multicast at ${new Date().toLocaleString("zh-TW", {
+				timeZone: "Asia/Taipei",
+			})}`,
+		})
+	);
 
 	if (!results) {
-		console.log("No results this time.");
+		console.log("No results this time. End execution");
 		return;
 	}
 

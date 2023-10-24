@@ -29,24 +29,24 @@ const handleRequest = async (req: Request, res: Response): Promise<void> => {
 					return;
 				}
 				await handleLineRequest(line, req, res);
-				break;
+				return;
 			}
 			case "supabase": {
 				const result = await handleSupabase(line, req.originalUrl.split("/"), req.body);
 				res.status(200).send(result);
-				break;
+				return;
 			}
 			default:
 				res.status(404).send("Not Found");
 		}
 	} catch (error: unknown) {
-		if (error instanceof Error) {
-			console.error(error.message);
-			res.status(500).send(error.message);
-		} else {
-			console.error(error);
-			res.status(500).send("Internal Server Error");
-		}
+		console.log(
+			JSON.stringify({
+				severity: "ERROR",
+				message: `Main handler error: \n${error instanceof Error ? error.message : error}`,
+			})
+		);
+		res.status(500).send(error instanceof Error ? error.message : error);
 	}
 };
 
