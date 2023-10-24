@@ -34,8 +34,8 @@ const handleLineRequest = async (line: Client, req: Request, res: Response): Pro
 	try {
 		const requestBody = req.body;
 		const events: WebhookEvent[] = requestBody.events;
-		const results = await Promise.all(events.map((event) => handleEvent(line, event)));
-		res.status(200).send(results);
+		await Promise.all(events.map((event) => handleEvent(line, event)));
+		res.status(200).send("OK");
 	} catch (err: unknown) {
 		if (err instanceof Error) {
 			console.error(err.message);
